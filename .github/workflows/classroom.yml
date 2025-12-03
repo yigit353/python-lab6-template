@@ -1,0 +1,213 @@
+name: Autograding Tests
+
+on:
+  - push
+  - workflow_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      # Section A Tests
+      - name: Exercise 1 - String Processing
+        id: exercise-1
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 1 - String Processing
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise1_clean_filename -v
+          timeout: 10
+          max-score: 2
+
+      - name: Exercise 2 - Dictionary Operations
+        id: exercise-2
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 2 - Dictionary Operations
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise2_merge_dicts -v
+          timeout: 10
+          max-score: 2
+
+      - name: Exercise 3 - Filter List
+        id: exercise-3
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 3 - Filter List
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise3_filter_by_length -v
+          timeout: 10
+          max-score: 2
+
+      - name: Exercise 4 - Simple Class
+        id: exercise-4
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 4 - Simple Class
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise4_person_class -v
+          timeout: 10
+          max-score: 2
+
+      - name: Exercise 5 - Basic Inheritance
+        id: exercise-5
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 5 - Basic Inheritance
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise5_student_inheritance -v
+          timeout: 10
+          max-score: 2
+
+      - name: Exercise 6 - Method Overriding
+        id: exercise-6
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 6 - Method Overriding
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise6_method_overriding -v
+          timeout: 10
+          max-score: 2
+
+      # Section B Tests
+      - name: Exercise 7 - Product Class
+        id: exercise-7
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 7 - Product Class
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise7_product_class -v
+          timeout: 10
+          max-score: 3
+
+      - name: Exercise 8 - Book Inheritance
+        id: exercise-8
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 8 - Book Inheritance
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise8_book_inheritance -v
+          timeout: 10
+          max-score: 3
+
+      - name: Exercise 9 - Encapsulation
+        id: exercise-9
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 9 - Encapsulation
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise9_bank_account_encapsulation -v
+          timeout: 10
+          max-score: 3
+
+      - name: Exercise 10 - Polymorphism
+        id: exercise-10
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 10 - Polymorphism
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise10_polymorphism -v
+          timeout: 10
+          max-score: 3
+
+      - name: Exercise 11 - Class Variables
+        id: exercise-11
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 11 - Class Variables
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise11_class_variables -v
+          timeout: 10
+          max-score: 3
+
+      - name: Exercise 12 - String Representation
+        id: exercise-12
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 12 - String Representation
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise12_string_representation -v
+          timeout: 10
+          max-score: 3
+
+      # Section C Tests
+      - name: Exercise 13 - Property Decorators
+        id: exercise-13
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 13 - Property Decorators
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise13_property_decorators -v
+          timeout: 10
+          max-score: 5
+
+      - name: Exercise 14 - Class/Static Methods
+        id: exercise-14
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 14 - Class/Static Methods
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise14_class_static_methods -v
+          timeout: 10
+          max-score: 5
+
+      - name: Exercise 15 - Iterator Protocol
+        id: exercise-15
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 15 - Iterator Protocol
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise15_iterator_protocol -v
+          timeout: 10
+          max-score: 5
+
+      - name: Exercise 16 - Composition
+        id: exercise-16
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Exercise 16 - Composition
+          setup-command: ""
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise16_composition -v
+          timeout: 10
+          max-score: 5
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          EXERCISE-1_RESULTS: "${{steps.exercise-1.outputs.result}}"
+          EXERCISE-2_RESULTS: "${{steps.exercise-2.outputs.result}}"
+          EXERCISE-3_RESULTS: "${{steps.exercise-3.outputs.result}}"
+          EXERCISE-4_RESULTS: "${{steps.exercise-4.outputs.result}}"
+          EXERCISE-5_RESULTS: "${{steps.exercise-5.outputs.result}}"
+          EXERCISE-6_RESULTS: "${{steps.exercise-6.outputs.result}}"
+          EXERCISE-7_RESULTS: "${{steps.exercise-7.outputs.result}}"
+          EXERCISE-8_RESULTS: "${{steps.exercise-8.outputs.result}}"
+          EXERCISE-9_RESULTS: "${{steps.exercise-9.outputs.result}}"
+          EXERCISE-10_RESULTS: "${{steps.exercise-10.outputs.result}}"
+          EXERCISE-11_RESULTS: "${{steps.exercise-11.outputs.result}}"
+          EXERCISE-12_RESULTS: "${{steps.exercise-12.outputs.result}}"
+          EXERCISE-13_RESULTS: "${{steps.exercise-13.outputs.result}}"
+          EXERCISE-14_RESULTS: "${{steps.exercise-14.outputs.result}}"
+          EXERCISE-15_RESULTS: "${{steps.exercise-15.outputs.result}}"
+          EXERCISE-16_RESULTS: "${{steps.exercise-16.outputs.result}}"
+        with:
+          runners: exercise-1,exercise-2,exercise-3,exercise-4,exercise-5,exercise-6,exercise-7,exercise-8,exercise-9,exercise-10,exercise-11,exercise-12,exercise-13,exercise-14,exercise-15,exercise-16
