@@ -143,19 +143,15 @@ class Student(Person):
 class Animal:
     """Base Animal class"""
     def speak(self):
-        return "Animal sound"
+        pass 
 
 class Dog(Animal):
     """
     Dog class that overrides speak method
-    
-    Methods:
-        speak(): Return "Woof!"
     """
     def speak(self):
-        # TODO: Override method
+        # TODO: Override method to return "Woof!"
         pass
-
 
 # ==========================================
 # SECTION B: MEDIUM - BASIC OOP CONCEPTS (18 points)
@@ -165,49 +161,36 @@ class Dog(Animal):
 # ==========================================
 # EXERCISE 7: Create Simple Class (3 points)
 # ==========================================
+
+# TODO:
+#   - Initialize attributes: name, price, quantity
+#   - Implement get_total_value() → price × quantity
+#   - Implement apply_discount(percent)
+
+
 class Product:
     """
-    Product class for e-commerce system
-    - Attributes: name (str), price (float), quantity (int)
-    - Methods:
-        get_total_value(): price × quantity
-        apply_discount(percent): reduce price by percentage
+    Product class for e-commerce system.
     """
     def __init__(self, name, price, quantity):
-        # TODO: Initialize attributes
         pass
     
     def get_total_value(self):
-        # TODO: Calculate total value
         pass
     
     def apply_discount(self, percent):
-        """
-        Apply discount to price
-        
-        Args:
-            percent (float): Discount percentage (0-100)
-        """
-        # TODO: Reduce price by percent
         pass
 
 
 # ==========================================
 # EXERCISE 8: Inheritance (3 points)
 # ==========================================
-class Book(Product):
-    """
-    Book class inheriting from Product
-    - Additional attributes: author (str), pages (int)
-    - Override get_total_value(): include 10% tax for books
-    """
-    def __init__(self, name, price, quantity, author, pages):
-        # TODO: Initialize with inheritance
-        pass
-    
-    def get_total_value(self):
-        # TODO: Override to include 10% tax
-        pass
+
+# TODO:
+#   - Create a Book class inheriting from Product
+#   - Add attributes: author, pages
+#   - Use super() inside the constructor
+#   - Override get_total_value() to include 10% tax
 
 
 # ==========================================
@@ -240,30 +223,20 @@ class BankAccount:
 # ==========================================
 # EXERCISE 10: Polymorphism (3 points)
 # ==========================================
-class Animal:
+
+# TODO:
+#   - Create Dog and Cat classes that inherit from AnimalBase
+#   - Override speak() in each:
+#       Dog → "Woof!"
+#       Cat → "Meow"
+#   - Create a function animal_concert(animals) that:
+#       - Takes a list of AnimalBase objects
+#       - Returns a list of sounds using polymorphism
+
+
+class AnimalBase:
     def speak(self):
-        return "Some sound"
-
-class Dog(Animal):
-    # TODO: Override speak to return "Woof"
-    pass
-
-class Cat(Animal):
-    # TODO: Override speak to return "Meow"
-    pass
-
-def animal_concert(animals):
-    """
-    Make all animals speak
-    
-    Args:
-        animals (list): List of Animal objects
-    
-    Returns:
-        list: Sounds from each animal
-    """
-    # TODO: Implement using polymorphism
-    pass
+        pass
 
 
 # ==========================================
@@ -274,7 +247,7 @@ class Employee:
     Employee class with class variable
     - Class variable: total_employees (count all employees)
     - Instance attributes: name, salary
-    - Update total_employees in __init__
+    - Update total_employees in _init_
     """
     total_employees = 0  # Class variable
     
@@ -291,18 +264,18 @@ class Point:
     2D Point class with string representation
     - Attributes: x, y (integers)
     - Methods:
-        __str__(): Return "(x, y)"
-        __repr__(): Return "Point(x, y)"
+        _str_(): Return "(x, y)"
+        _repr_(): Return "Point(x, y)"
     """
     def __init__(self, x, y):
         # TODO: Initialize
         pass
     
-    def __str__(self):
+    def _str_(self):
         # TODO: Return human-readable string
         pass
     
-    def __repr__(self):
+    def _repr_(self):
         # TODO: Return code-readable string
         pass
 
@@ -313,91 +286,90 @@ class Point:
 # ==========================================
 
 # ==========================================
-# EXERCISE 13: Property Decorators (5 points)
+# EXERCISE 13: Encapsulation and Computed Property (5 points)
 # ==========================================
-class Temperature:
+
+# TODO:
+#   - Initialize private attributes __width and __height
+#   - Implement set_dimensions(w, h) with validation
+#   - Implement get_area()
+#   - Implement get_perimeter()
+
+
+class Rectangle:
     """
-    Temperature with property decorators
-    - Private: __celsius
-    - Properties: celsius, fahrenheit
-    - fahrenheit = celsius × 9/5 + 32
+    Rectangle class with private attributes and computed values.
     """
-    def __init__(self, celsius):
-        # TODO: Initialize
+
+    def __init__(self, width, height):
         pass
     
-    @property
-    def celsius(self):
-        # TODO: Getter
+    def set_dimensions(self, w, h):
         pass
-    
-    @celsius.setter
-    def celsius(self, value):
-        # TODO: Setter
+        
+    def get_area(self):
         pass
+        
+    def get_perimeter(self):
+        pass
+
+# ==========================================
+# EXERCISE 14: Class Method for Tracking (5 points)
+# ==========================================
+
+# TODO:
+#   - Increment the class variable instance_count inside the constructor
+#   - Create a class method get_instance_count()
+#   - Create a static method is_even(number)
+
+
+class Counter:
+    """
+    A class to demonstrate the use of class and static methods.
     
-    @property
-    def fahrenheit(self):
-        # TODO: Computed property
+    Class Variable:
+        instance_count (int): Tracks how many instances of Counter have been created.
+    """
+    
+    # Class Variable
+    instance_count = 0
+    
+    def __init__(self):
         pass
 
 
 # ==========================================
-# EXERCISE 14: Class and Static Methods (5 points)
+# EXERCISE 15: Inheritance and Method Chaining (5 points)
 # ==========================================
-class Calculator:
-    """
-    Calculator with class/static methods
-    - Class variable: operation_count
-    - Class method: track_operation()
-    - Static methods: add, multiply
-    """
-    operation_count = 0
-    
-    @classmethod
-    def track_operation(cls):
-        """Increment operation count"""
-        # TODO: Implement
-        pass
-    
-    @staticmethod
-    def add(a, b):
-        """Add two numbers and track"""
-        # TODO: Implement
-        pass
-    
-    @staticmethod
-    def multiply(a, b):
-        """Multiply two numbers and track"""
-        # TODO: Implement
-        pass
 
+# TODO:
+# Create a subclass named Car that:
+#   - Inherits from Vehicle
+#   - Has an additional attribute: model
+#   - Uses super() in the constructor
+#   - Overrides describe() and instead of ending with . also add “, Model: <model_name here>.”
 
-# ==========================================
-# EXERCISE 15: Iterator Protocol (5 points)
-# ==========================================
-class Range:
-    """
-    Custom range iterator (simplified)
-    - Similar to range() but as a class
-    - Methods: __init__, __iter__, __next__
-    """
-    def __init__(self, start, end):
-        # TODO: Initialize
-        pass
-    
-    def __iter__(self):
-        # TODO: Return iterator
-        pass
-    
-    def __next__(self):
-        # TODO: Implement next value
-        pass
+class Vehicle:
+    """Base class for all vehicles."""
+    def __init__(self, color, max_speed):
+        self.color = color
+        self.max_speed = max_speed
+        
+    def describe(self):
+        return f"Color: {self.color}, Max Speed: {self.max_speed}."
 
 
 # ==========================================
 # EXERCISE 16: Composition over Inheritance (5 points)
 # ==========================================
+
+# TODO:
+# Create a class named Car that:
+#   - Uses composition (has-an Engine)
+#   - Has attributes such as brand and engine (Engine instance)
+#   - Initializes Engine using the given horsepower
+#   - Delegates start() to the engine's start() method
+
 class Engine:
     """Engine component"""
     def __init__(self, horsepower):
@@ -406,23 +378,9 @@ class Engine:
     def start(self):
         return f"Engine ({self.horsepower}HP) started"
 
-class Car:
-    """
-    Car using composition (has-an Engine)
-    - Instead of inheriting from Engine
-    - Car has an Engine instance
-    """
-    def __init__(self, brand, engine_hp):
-        # TODO: Initialize with Engine instance
-        pass
-    
-    def start(self):
-        # TODO: Delegate to engine
-        pass
-
 
 # ==========================================
 # DO NOT MODIFY BELOW THIS LINE
 # ==========================================
-if __name__ == "__main__":
+if __name__ == "_main_":
     print("Run 'python lab6_exercises.py' to test your solutions!")

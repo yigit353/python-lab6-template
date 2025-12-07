@@ -70,9 +70,9 @@ class TestLab6(unittest.TestCase):
         self.assertIn("20", info)
         self.assertIn("S12345", info)
 
-    # Exercise 6: Week 6 - Method Overriding
+    # Exercise 6: Week 6 - Method Overriding + Protected Member Check
     def test_exercise6_method_overriding(self):
-        """Test method overriding"""
+        """Test method overriding and protected members"""
         animal = Animal()
         self.assertEqual(animal.speak(), "Animal sound")
         
@@ -81,6 +81,18 @@ class TestLab6(unittest.TestCase):
         
         # Check inheritance
         self.assertIsInstance(dog, Animal)
+
+        # 🔥 NEW — Hocanın istediği "trick test"
+        # Öğrenci self.width veya self.height yazmamalı; protected kullanılmalı
+        rect = Rectangle(10, 20)
+
+        self.assertTrue(hasattr(rect, "_Rectangle__height"))
+        self.assertTrue(hasattr(rect, "_Rectangle__width"))
+
+        # Öğrenci yanlış yazarsa:
+        self.assertFalse(hasattr(rect, "height"))
+        self.assertFalse(hasattr(rect, "width"))
+
 
     # ==========================================
     # SECTION B TESTS: MEDIUM - OOP CONCEPTS (18 points)
@@ -108,7 +120,6 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(book.pages, 300)
         
         total = book.get_total_value()
-        # 50 * 3 = 150, plus 10% tax = 165
         self.assertAlmostEqual(total, 165.0, places=2)
 
     # Exercise 9: Encapsulation
@@ -123,9 +134,8 @@ class TestLab6(unittest.TestCase):
         account.withdraw(300)
         self.assertEqual(account.get_balance(), 1200)
         
-        # Test insufficient funds
         account.withdraw(2000)
-        self.assertEqual(account.get_balance(), 1200)  # Should not change
+        self.assertEqual(account.get_balance(), 1200)
 
     # Exercise 10: Polymorphism
     def test_exercise10_polymorphism(self):
@@ -143,7 +153,6 @@ class TestLab6(unittest.TestCase):
     # Exercise 11: Class Variables
     def test_exercise11_class_variables(self):
         """Test class variables"""
-        # Reset counter
         Employee.total_employees = 0
         
         emp1 = Employee("Alice", 50000)
@@ -167,21 +176,26 @@ class TestLab6(unittest.TestCase):
     # SECTION C TESTS: HARD - ADVANCED OOP (20 points)
     # ==========================================
 
-    # Exercise 13: Property Decorators
+    # Exercise 13: Property Decorators + PRIVATE MEMBER TEST
     def test_exercise13_property_decorators(self):
-        """Test property decorators"""
+        """Test property decorators and private attribute"""
         temp = Temperature(25.0)
         
         self.assertEqual(temp.celsius, 25.0)
-        self.assertEqual(temp.fahrenheit, 77.0)  # 25*9/5+32=77
+        self.assertEqual(temp.fahrenheit, 77.0)
         
         temp.celsius = 30.0
-        self.assertEqual(temp.fahrenheit, 86.0)  # 30*9/5+32=86
+        self.assertEqual(temp.fahrenheit, 86.0)
+
+        # 🔥 NEW — PRIVATE ATTRIBUTE TRICK TEST
+        # TemperaturE sınıfı __celsius adında private member kullanmalı
+        self.assertTrue(hasattr(temp, "_Temperature__celsius"))
+        self.assertFalse(hasattr(temp, "celsius_value"))
+        self.assertFalse(hasattr(temp, "_celsius"))
 
     # Exercise 14: Class and Static Methods
     def test_exercise14_class_static_methods(self):
         """Test class and static methods"""
-        # Reset counter
         Calculator.operation_count = 0
         
         result = Calculator.add(5, 10)
@@ -203,7 +217,6 @@ class TestLab6(unittest.TestCase):
         
         self.assertEqual(results, [5, 4, 3, 2, 1])
         
-        # Test with single iteration
         single = Range(3, 3)
         self.assertEqual(list(single), [3])
 
@@ -216,7 +229,6 @@ class TestLab6(unittest.TestCase):
         self.assertIn("Toyota", result)
         self.assertIn("150HP", result)
         
-        # Check that Car has Engine
         self.assertTrue(hasattr(car, 'engine'))
         self.assertIsInstance(car.engine, Engine)
 
@@ -236,14 +248,13 @@ def calculate_score():
     print("\n" + "=" * 50)
     print(f"LAB 6 RESULTS: {passed}/{total_tests} tests passed")
     
-    # Calculate section scores
-    section_a = min(passed, 6)  # First 6 tests
-    section_b = max(0, min(passed - 6, 6))  # Next 6 tests
-    section_c = max(0, min(passed - 12, 4))  # Last 4 tests
+    section_a = min(passed, 6)
+    section_b = max(0, min(passed - 6, 6))
+    section_c = max(0, min(passed - 12, 4))
     
-    section_a_score = section_a * 2  # 2 points each
-    section_b_score = section_b * 3  # 3 points each
-    section_c_score = section_c * 5  # 5 points each
+    section_a_score = section_a * 2
+    section_b_score = section_b * 3
+    section_c_score = section_c * 5
     
     total_score = section_a_score + section_b_score + section_c_score
     
