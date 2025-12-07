@@ -1,6 +1,5 @@
 import unittest
-import sys
-import os
+
 from lab6_exercises import *
 
 
@@ -17,11 +16,11 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(clean_filename("REPORT.PDF"), "report.pdf")
         self.assertEqual(clean_filename("alreadyclean.txt"), "alreadyclean.txt")
         
-        # 🔥 TRICK TEST 1: Empty or whitespace-only strings should return an empty string.
+        # TRICK TEST 1: Empty or whitespace-only strings should return an empty string.
         self.assertEqual(clean_filename("   "), "")
         self.assertEqual(clean_filename(""), "")
         
-        # 🔥 TRICK TEST 2: String with internal spaces should not be altered aside from case.
+        # TRICK TEST 2: String with internal spaces should not be altered aside from case.
         self.assertEqual(clean_filename("  My Document.DOCX  "), "my document.docx")
 
     # Exercise 2: Week 5 Review - Dictionary Operations
@@ -36,19 +35,19 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(merge_dicts({'a': 1, 'b': 2}, {}), {'a': 1, 'b': 2})
         self.assertEqual(merge_dicts({}, {}), {})
         
-        # 🔥 TRICK TEST 1: dict1 must not be modified (CRITICAL - catches .update() misuse)
+        # TRICK TEST 1: dict1 must not be modified (CRITICAL - catches .update() misuse)
         dict1 = {'a': 1, 'b': 2}
         dict2 = {'b': 3, 'c': 4}
         dict1_backup = dict1.copy()
         result = merge_dicts(dict1, dict2)
         self.assertEqual(dict1, dict1_backup, "Original dict1 was modified! It must remain unchanged.")
         
-        # 🔥 TRICK TEST 2: dict2 must also not be modified (ADDITIONAL TRICK)
+        # TRICK TEST 2: dict2 must also not be modified (ADDITIONAL TRICK)
         dict2_backup = dict2.copy()
         result = merge_dicts(dict1, dict2)
         self.assertEqual(dict2, dict2_backup, "Original dict2 was modified! It must remain unchanged.")
         
-        # 🔥 TRICK TEST 3: Ensure a NEW dictionary is returned (not one of the inputs)
+        # TRICK TEST 3: Ensure a NEW dictionary is returned (not one of the inputs)
         # (This test is implicit in the ones above, but can be made explicit)
         self.assertIsNot(result, dict1, "The returned dictionary should be a new object, not dict1.")
         self.assertIsNot(result, dict2, "The returned dictionary should be a new object, not dict2.")
@@ -57,38 +56,41 @@ class TestLab6(unittest.TestCase):
     def test_exercise3_filter_by_length(self):
         """Test filtering strings by length with preservation and non-destructive operation."""
         
-        # Basic functionality
+        # Basic functionality - "greater than or equal to" yani >= olmalı
         self.assertEqual(filter_by_length(['hi', 'hello', 'hey', 'welcome'], 3), 
-                         ['hello', 'hey', 'welcome'])
+                        ['hello', 'hey', 'welcome'])  # 'hey' 3 karakter, 3>=3 True
         
         # Edge cases
-        self.assertEqual(filter_by_length(['ab', 'abc'], 2), ['ab', 'abc'])
+        self.assertEqual(filter_by_length(['ab', 'abc'], 2), ['ab', 'abc'])  # 'ab' 2 karakter, 2>=2 True
         self.assertEqual(filter_by_length(['test'], 5), [])
         self.assertEqual(filter_by_length([], 3), [])
         
-        # 🔥 TRICK 1: Exact length match (boundary condition)
+        # TRICK 1: Exact length match (boundary condition)
         self.assertEqual(filter_by_length(['cat', 'dog', 'elephant'], 3), 
-                         ['cat', 'dog', 'elephant'])
+                        ['cat', 'dog', 'elephant'])  # 'cat' ve 'dog' 3 karakter, 3>=3 True
         
-        # 🔥 TRICK 2: Original list must not be modified (non-destructive)
+        # TRICK 2: Original list must not be modified (non-destructive)
         original_list = ['python', 'c', 'java', 'go', 'rust']
         original_copy = original_list.copy()
         result = filter_by_length(original_list, 3)
-        self.assertEqual(original_list, original_copy, 
-                         "Original list was modified. The function must be non-destructive.")
+        self.assertEqual(result, original_copy,
+                        "Original list was modified. The function must be non-destructive.")
         
-        # 🔥 TRICK 3: Order preservation (important for list comprehensions done wrong)
+        # TRICK 3: Order preservation (important for list comprehensions done wrong)
         self.assertEqual(filter_by_length(['zzz', 'aaa', 'bbb', 'cccc'], 3), 
-                         ['zzz', 'cccc'])
+                        ['zzz', 'aaa', 'bbb', 'cccc'])  # Hepsi >= 3
         
-        # 🔥 TRICK 4: min_len = 0 (should return all strings, including empty ones)
+        # TRICK 4: min_len = 0 (tests boundary condition with empty strings)
+        # Empty string has length 0, and 0 >= 0 is TRUE
+        # So '' SHOULD be included when using "greater than or equal to"
         self.assertEqual(filter_by_length(['', 'a', 'ab'], 0), 
-                         ['', 'a', 'ab'])
+                        ['', 'a', 'ab'])  # '' length=0, 0>=0 True
         
-        # 🔥 TRICK 5: Negative min_len (should still work, treat as 0)
+        # TRICK 5: Negative min_len (should still work)
         self.assertEqual(filter_by_length(['x', 'yy', 'zzz'], -1), 
-                         ['x', 'yy', 'zzz'])
+                        ['x', 'yy', 'zzz'])
         
+
     # Exercise 4: Week 6 - Simple Class    
     def test_exercise4_person_class(self):
         """Test Person class with trick tests."""
@@ -100,100 +102,88 @@ class TestLab6(unittest.TestCase):
         # Test 2: Exact format required (string matching)
         self.assertEqual(p.get_info(), "Name: Alice, Age: 25")
         
-        # Test 3: 🔥 TRICK - Instance independence
+        # Test 3: TRICK - Instance independence
         p2 = Person("Bob", 30)
         p2.name = "Robert"  # Modify one instance
         self.assertEqual(p2.get_info(), "Name: Robert, Age: 30")
         # Ensure original instance is unaffected
         self.assertEqual(p.get_info(), "Name: Alice, Age: 25")
         
-        # Test 4: 🔥 TRICK - Method existence and callability
+        # Test 4: TRICK - Method existence and callability
         self.assertTrue(hasattr(p, "get_info"))
         self.assertTrue(callable(p.get_info))
         
-        # Test 5: 🔥 TRICK - Return type must be string (not print)
+        # Test 5: TRICK - Return type must be string (not print)
         info = p.get_info()
         self.assertIsInstance(info, str, "get_info() must return a string, not print.")
 
-    # Exercise 5: Week 6 - Basic Inheritance
-    def test_exercise5_student_inheritance(self):
-        """Test Student inheritance with trick tests focusing on proper inheritance usage."""
+    def test_exercise5_circle_inheritance(self):
+        """Test Circle inheritance with trick tests focusing on proper inheritance usage."""
         
-        # Test 1: Student has all expected attributes
-        s = Student("Bob", 20, "S12345")
-        self.assertEqual(s.name, "Bob")
-        self.assertEqual(s.age, 20)
-        self.assertEqual(s.student_id, "S12345")
+        # Test 1: Circle has all expected attributes
+        c = Circle("Blue", 10)
+        assert c.color == "Blue"
+        assert c.radius == 10
         
-        # Test 2: 🔥 TRICK - Exact output format required (tests override)
-        self.assertEqual(s.get_info(), "Name: Bob, Age: 20, ID: S12345")
+        # Test 2: TRICK - Exact output format required (tests override)
+        assert c.get_info() == "Circle color: Blue, Radius: 10"
         
-        # Test 3: 🔥 TRICK - Must be a subclass (inheritance required)
-        self.assertIsInstance(s, Person)
-        self.assertTrue(issubclass(Student, Person))
+        # Test 3: TRICK - Must be a subclass (inheritance required)
+        s = Shape("Red")
+        assert isinstance(c, Shape)
+        assert issubclass(Circle, Shape)
         
-        # Test 4: 🔥 TRICK - Parent and child methods must differ (override check)
-        p = Person("Bob", 20)
-        self.assertNotEqual(p.get_info(), s.get_info())
-        self.assertEqual(p.get_info(), "Name: Bob, Age: 20")
+        # Test 4: TRICK - Parent and child methods must differ (override check)
+        assert s.get_info() != c.get_info()
+        assert s.get_info() == "Shape color: Red"
         
-        # Test 5: 🔥 TRICK - Instance independence (no shared class variables)
-        s2 = Student("Alice", 25, "S999")
-        s3 = Student("Charlie", 22, "S888")
-        s2.name = "Alicia"
-        self.assertEqual(s3.name, "Charlie")  # s3 should not be affected
+        # Test 5: TRICK - Instance independence (no shared class variables)
+        c2 = Circle("Green", 5)
+        c3 = Circle("Yellow", 7)
+        c2.color = "Dark Green"
+        assert c3.color == "Yellow"  # c3 should not be affected
         
-        # Test 6: 🔥 TRICK - New: Student should NOT have a 'person_id' attribute
-        # (Catches students who add wrong attribute names)
-        self.assertFalse(hasattr(s, 'person_id'), 
-                         "Student should have 'student_id', not 'person_id'.")
+        # Test 6: TRICK - New: Circle should NOT have a 'shape_id' attribute
+        assert not hasattr(c, 'shape_id'), "Circle should have 'radius', not 'shape_id'"
         
-        # Test 7: 🔥 TRICK - New: Ensure Student.__init__ doesn't break Person.__init__
-        # Person should still work independently
-        p2 = Person("Eve", 30)
-        self.assertEqual(p2.get_info(), "Name: Eve, Age: 30")
+        # Test 7: TRICK - New: Ensure Circle.__init__ doesn't break Shape.__init__
+        # Shape should still work independently
+        s2 = Shape("Black")
+        assert s2.get_info() == "Shape color: Black"
 
-    # Exercise 6: Week 6 - Method Overriding
+
+    # Test code for EXERCISE 6
     def test_exercise6_method_overriding(self):
         """Test method overriding with focus on proper inheritance and exact output."""
         
-        # 🔥 TRICK 1: Animal.speak() should not return a meaningful string
-        # (Catches students who make Animal.speak() return something like "Animal sound")
-        animal = Animal()
-        animal_speak_result = animal.speak()
-        self.assertNotEqual(animal_speak_result, "Woof!", 
-                          "Animal.speak() should not return 'Woof!'")
-        # Allow None, ..., or any non-string
-        if animal_speak_result is not None:
-            self.assertNotIsInstance(animal_speak_result, str,
-                                   "Animal.speak() should not return a string")
+        # TRICK 1: Device.get_sound() should not return a meaningful string
+        device = Device()
+        device_sound_result = device.get_sound()
+        assert device_sound_result != "Ring!", \
+            "Device.get_sound() should not return 'Ring!'"
         
-        # Test Dog class
-        dog = Dog()
+        # TRICK 2: Must use inheritance
+        smartphone = Smartphone()
+        assert isinstance(smartphone, Device), "Smartphone must inherit from Device"
         
-        # 🔥 TRICK 2: Must use inheritance
-        self.assertIsInstance(dog, Animal, "Dog must inherit from Animal")
+        # TRICK 3: Exact string "Ring!" required
+        assert smartphone.get_sound() == "Ring!", \
+            'Smartphone.get_sound() must return exactly "Ring!"'
         
-        # 🔥 TRICK 3: Exact string "Woof!" required (case-sensitive, punctuation-sensitive)
-        self.assertEqual(dog.speak(), "Woof!", 
-                        'Dog.speak() must return exactly "Woof!" (with exclamation)')
+        # TRICK 4: Smartphone.get_sound() must be different from Device.get_sound()
+        assert device.get_sound() != smartphone.get_sound(), \
+            "Smartphone.get_sound() should not return the same as Device.get_sound()"
         
-        # 🔥 TRICK 4: Dog.speak() must be different from Animal.speak()
-        # Simpler check: Animal's speak should not equal Dog's speak result
-        self.assertNotEqual(animal.speak(), dog.speak(),
-                          "Dog.speak() should not return the same as Animal.speak()")
+        # TRICK 5: Ensure get_sound() returns a string
+        result = smartphone.get_sound()
+        assert isinstance(result, str), \
+            "Smartphone.get_sound() must return a string"
         
-        # 🔥 TRICK 5: Ensure speak() returns a string (not prints)
-        result = dog.speak()
-        self.assertIsInstance(result, str,
-                            "Dog.speak() must return a string, not just print.")
-        
-        # 🔥 TRICK 6: Multiple instances work independently
-        dog2 = Dog()
-        dog3 = Dog()
-        dog2.speak()  # Call it
-        self.assertEqual(dog3.speak(), "Woof!",
-                        "All Dog instances should behave the same")
+        # TRICK 6: Multiple instances work independently
+        smartphone2 = Smartphone()
+        smartphone3 = Smartphone()
+        smartphone2.get_sound()
+        assert smartphone3.get_sound() == "Ring!"
 
     # ==========================================
     # SECTION B TESTS: MEDIUM - OOP CONCEPTS (18 points)
@@ -202,6 +192,22 @@ class TestLab6(unittest.TestCase):
     # Exercise 7: Classes and Methods
     def test_exercise7_product_class(self):
         """Test Product class with trick tests focusing on state management."""
+        
+        # ÖNEMLİ: Önce tüm Product tanımlarını temizle
+        for key in list(globals().keys()):
+            if key == 'Product':
+                del globals()[key]
+        
+        # Product sınıfının tanımlı olup olmadığını kontrol et
+        if 'Product' not in globals():
+            # Test dosyasından Product sınıfını import etmeye çalış
+            try:
+                # Eğer öğrenci kodu ayrı bir dosyada ise
+                from lab6_exercises import Product
+                globals()['Product'] = Product
+            except ImportError:
+                # Eğer doğrudan bu dosyada tanımlanmışsa
+                self.fail("Product class not defined. Please create Product class with EXACT name 'Product'.")
         
         # Test 1: Basic attributes and total value
         p1 = Product("Laptop", 1000.0, 2)
@@ -260,58 +266,61 @@ class TestLab6(unittest.TestCase):
         p11.apply_discount(15)
         self.assertIsInstance(p11.price, (float, int))
         self.assertAlmostEqual(p11.price, 85.0, places=2)
+        
+        # Ensure apply_discount method exists
+        self.assertTrue(hasattr(p1, 'apply_discount'), 
+                       "Product class must have apply_discount method")
+        self.assertTrue(callable(p1.apply_discount),
+                       "apply_discount must be a method")
+        
+        
+    # Test code for EXERCISE 8
+    def test_exercise8_shoe_inheritance():
+        """Test Shoe inheritance with focus on proper override and independent implementation."""
+        
+        # Test 1: Shoe has all expected attributes including inherited ones
+        shoe = Shoe("Running Shoes", 80.0, 5, "Nike", 42)
+        assert shoe.name == "Running Shoes"
+        assert shoe.price == 80.0
+        assert shoe.quantity == 5
+        assert shoe.brand == "Nike"
+        assert shoe.size == 42
+        
+        # Test 2: TRICK - Must inherit from ClothingItem (type check)
+        assert isinstance(shoe, ClothingItem)
+        
+        # Test 3: TRICK - calculate_price() returns a different value than base ClothingItem
+        basic_item = ClothingItem("Basic", 80.0, 5)
+        shoe_price = shoe.calculate_price()
+        item_price = basic_item.calculate_price()
+        assert shoe_price != item_price, \
+            "Shoe.calculate_price() must return different value than ClothingItem"
+        
+        # Test 4: TRICK - The difference should be consistent and significant
+        difference = abs(shoe_price - item_price)
+        assert difference > 1.0, \
+            "Shoe price should be substantially different from base clothing item price"
+        
+        # Test 6: TRICK - Multiple shoes are independent
+        s1 = Shoe("Sneakers", 60.0, 3, "Adidas", 40)
+        s2 = Shoe("Boots", 120.0, 2, "Timberland", 41)
+        s1.quantity = 4
+        assert s2.quantity == 2, "Modifying one shoe should not affect another"
+        
+        # Test 7: TRICK - The calculation should work with edge cases
+        free_shoe = Shoe("Free", 0.0, 8, "Generic", 39)
+        assert isinstance(free_shoe.calculate_price(), (int, float)), \
+            "calculate_price() should return a number even with zero price"
+        
+        # Test 8: TRICK - The override should handle different numeric inputs
+        expensive_shoe = Shoe("Designer", 500.0, 2, "Gucci", 43)
+        expensive_price = expensive_shoe.calculate_price()
+        # Check that the price is different from simple multiplication
+        assert expensive_price != 1000.0, \
+            "With the modification, total should be different from price×quantity"
+        
+        print("All tests passed for Exercise 8!")
 
-    # Exercise 8: Inheritance and Method Overriding
-    def test_exercise8_book_inheritance(self):
-        """Test Book inheritance with focus on proper override and independent implementation."""
-        
-        # Test 1: Book has all expected attributes including inherited ones
-        book = Book("Python Guide", 50.0, 3, "John Doe", 300)
-        self.assertEqual(book.name, "Python Guide")
-        self.assertEqual(book.price, 50.0)
-        self.assertEqual(book.quantity, 3)
-        self.assertEqual(book.author, "John Doe")
-        self.assertEqual(book.pages, 300)
-        
-        # Test 2: 🔥 TRICK - Must inherit from Product (type check)
-        self.assertIsInstance(book, Product)
-        
-        # Test 3: 🔥 TRICK - get_total_value() returns a different value than base Product
-        # (Tests that override actually changes behavior)
-        simple_product = Product("Simple", 50.0, 3)
-        book_total = book.get_total_value()
-        product_total = simple_product.get_total_value()
-        self.assertNotEqual(book_total, product_total,
-                          "Book.get_total_value() must return different value than Product")
-        
-        # Test 4: 🔥 TRICK - The difference should be consistent and significant
-        # (Without giving away the formula, test that it's not just a tiny rounding difference)
-        difference = abs(book_total - product_total)
-        self.assertGreater(difference, 1.0,
-                         "Book total should be substantially different from base product total")
-        
-        # Test 5: 🔥 TRICK - Inheritance should preserve parent methods unless overridden
-        # (If Product had other methods, Book should have them too)
-        # Create a Product with a hypothetical method to test inheritance structure
-        # Actually, we can't test this without defining the method... skip.
-        
-        # Test 6: 🔥 TRICK - Multiple books are independent
-        b1 = Book("Book1", 100.0, 2, "Author1", 200)
-        b2 = Book("Book2", 100.0, 2, "Author2", 300)
-        # Modify b1's quantity
-        b1.quantity = 3
-        self.assertEqual(b2.quantity, 2, "Modifying one book should not affect another")
-        
-        # Test 7: 🔥 TRICK - The calculation should work with edge cases
-        free_book = Book("Free", 0.0, 5, "Author", 100)
-        self.assertIsInstance(free_book.get_total_value(), (int, float),
-                            "get_total_value() should return a number even with zero price")
-        
-        # Test 8: 🔥 TRICK - The override should handle different numeric inputs
-        expensive_book = Book("Expensive", 1000.0, 1, "Author", 500)
-        expensive_total = expensive_book.get_total_value()
-        self.assertGreater(expensive_total, 1000.0,
-                         "With the described modification, total should be greater than price×quantity")
 
     # Exercise 9: Encapsulation
     def test_exercise9_bank_account_encapsulation(self):
@@ -329,29 +338,29 @@ class TestLab6(unittest.TestCase):
         account.withdraw(300)
         self.assertEqual(account.get_balance(), 1200)
         
-        # Test 4: 🔥 TRICK - Private/mangled attribute should exist
+        # Test 4: TRICK - Private/mangled attribute should exist
         # Tests that student used name mangling for privacy
         self.assertTrue(hasattr(account, '_BankAccount__balance'),
                        "Balance should be stored with name mangling for privacy")
         
-        # Test 5: 🔥 TRICK - No simple public balance attribute
+        # Test 5: TRICK - No simple public balance attribute
         # Catches students who use self.balance instead of private attribute
         self.assertFalse(hasattr(account, 'balance'),
                         "Should not have a simple public 'balance' attribute")
         
-        # Test 6: 🔥 TRICK - Insufficient funds protection
+        # Test 6: TRICK - Insufficient funds protection
         initial_balance = account.get_balance()
         # Try to withdraw more than available
         withdrawal_result = account.withdraw(initial_balance + 100)
         self.assertEqual(account.get_balance(), initial_balance,
                         "Balance should not change after attempted over-withdrawal")
         
-        # Test 7: 🔥 TRICK - Exact balance withdrawal (edge case)
+        # Test 7: TRICK - Exact balance withdrawal (edge case)
         account2 = BankAccount(500)
         account2.withdraw(500)
         self.assertEqual(account2.get_balance(), 0)
         
-        # Test 8: 🔥 TRICK - Negative or zero amounts (should be handled gracefully)
+        # Test 8: TRICK - Negative or zero amounts (should be handled gracefully)
         account3 = BankAccount(1000)
         initial3 = account3.get_balance()
         # This should either fail silently or raise error, but not crash
@@ -363,19 +372,19 @@ class TestLab6(unittest.TestCase):
         self.assertLessEqual(account3.get_balance(), initial3,
                            "Negative withdrawal should not increase balance")
         
-        # Test 9: 🔥 TRICK - Instance independence
+        # Test 9: TRICK - Instance independence
         acc1 = BankAccount(100)
         acc2 = BankAccount(200)
         acc1.deposit(50)
         self.assertEqual(acc1.get_balance(), 150)
         self.assertEqual(acc2.get_balance(), 200)
         
-        # Test 10: 🔥 TRICK - Method return values
+        # Test 10: TRICK - Method return values
         # get_balance() should return a numeric value
         balance = account.get_balance()
         self.assertIsInstance(balance, (int, float))
         
-        # Test 11: 🔥 NEW TRICK - Deposit with zero or negative (optional handling)
+        # Test 11: NEW TRICK - Deposit with zero or negative (optional handling)
         # Some students might validate deposits too
         account4 = BankAccount(100)
         try:
@@ -387,145 +396,120 @@ class TestLab6(unittest.TestCase):
     # Exercise 10: Polymorphism
     def test_exercise10_polymorphism(self):
         """Test polymorphism implementation with animal classes."""
-        
+
         # Test 1: Classes can be instantiated
-        # (This will fail if classes don't exist or have syntax errors)
-        dog = Dog()
-        cat = Cat()
+        dog = Dog()  
+        cat = Cat()  
         
-        # Test 2: 🔥 TRICK - Inheritance must be used
+        # Test 2: TRICK - Inheritance must be used
         self.assertIsInstance(dog, AnimalBase)
         self.assertIsInstance(cat, AnimalBase)
         
-        # Test 3: 🔥 TRICK - Dog and Cat must return different strings
+        # Test 3: TRICK - Dog and Cat must return different strings
         dog_sound = dog.speak()
         cat_sound = cat.speak()
         self.assertNotEqual(dog_sound, cat_sound,
                           "Dog and Cat must produce different sounds")
         
-        # Test 4: 🔥 TRICK - Both must return strings (not print)
+        # Test 4: TRICK - Both must return strings (not print)
         self.assertIsInstance(dog_sound, str)
         self.assertIsInstance(cat_sound, str)
-        
-        # Test 5: 🔥 TRICK - Sounds should not be empty or None
+    
+        # Test 5: TRICK - Sounds should not be empty or None
         self.assertTrue(len(dog_sound) > 0, "Dog sound should not be empty")
         self.assertTrue(len(cat_sound) > 0, "Cat sound should not be empty")
         
-        # Test 6: 🔥 TRICK - animal_concert function exists and works
+        # Test 6: TRICK - animal_concert function exists and works
         animals = [dog, cat, dog]  # 2 dogs, 1 cat
         sounds = animal_concert(animals)
         
         self.assertEqual(len(sounds), 3,
                         "Should return one sound per animal")
         
-        # Test 7: 🔥 TRICK - Order preservation in animal_concert
+        # Test 7: TRICK - Order preservation in animal_concert
         self.assertEqual(sounds[0], dog_sound)
         self.assertEqual(sounds[1], cat_sound)
         self.assertEqual(sounds[2], dog_sound)
         
-        # Test 8: 🔥 TRICK - animal_concert works with empty list
+        # Test 8: TRICK - animal_concert works with empty list
         empty_result = animal_concert([])
         self.assertEqual(empty_result, [])
         
-        # Test 9: 🔥 TRICK - animal_concert works with homogeneous list
-        three_dogs = [Dog(), Dog(), Dog()]
+        # Test 9: TRICK - animal_concert works with homogeneous list
+        three_dogs = [Dog(), Dog(), Dog()] 
         dog_sounds = animal_concert(three_dogs)
         self.assertEqual(len(dog_sounds), 3)
         # All should be the same sound
         self.assertEqual(dog_sounds[0], dog_sounds[1])
         self.assertEqual(dog_sounds[1], dog_sounds[2])
         
-        # Test 10: 🔥 NEW TRICK - animal_concert should not modify input list
-        original_animals = [Dog(), Cat()]
+        # Test 10: NEW TRICK - animal_concert should not modify input list
+        original_animals = [Dog(), Cat()]  
         animals_copy = original_animals.copy()
         animal_concert(original_animals)
         self.assertEqual(original_animals, animals_copy,
                         "animal_concert should not modify the input list")
         
-        # Test 11: 🔥 NEW TRICK - AnimalBase.speak() should not return same as Dog or Cat
+        # Test 11: NEW TRICK - AnimalBase.speak() should not return same as Dog or Cat
         base_animal = AnimalBase()
         base_sound = base_animal.speak()
         # Base sound should be different from both Dog and Cat
-        # (or could be None/empty, but definitely not the same meaningful string)
-        if isinstance(base_sound, str) and len(base_sound) > 0:
-            self.assertNotEqual(base_sound, dog_sound,
-                              "AnimalBase sound should differ from Dog")
-            self.assertNotEqual(base_sound, cat_sound,
-                              "AnimalBase sound should differ from Cat")
+        self.assertNotEqual(base_sound, dog_sound,
+                          "AnimalBase sound should differ from Dog")
+        self.assertNotEqual(base_sound, cat_sound,
+                          "AnimalBase sound should differ from Cat")
 
+    # Exercise 11: Class Variables
     def test_exercise11_class_variables(self):
-        """Test class variable usage with focus on class-level tracking."""
+        """Test Employee class with class variable tracking."""
         
-        # Reset any existing class state by getting a fresh reference
-        # (This handles test pollution from previous runs)
-        from lab6_exercises import Employee
+        # Önce tüm Employee tanımlarını temizle
+        for key in list(globals().keys()):
+            if key == 'Employee':
+                del globals()[key]
         
-        # Test 1: 🔥 TRICK - Class has a class variable (without naming it)
-        # Check that Employee has at least one class variable that is a number
-        class_vars = [attr for attr in dir(Employee) 
-                     if not attr.startswith('__') and not callable(getattr(Employee, attr))]
+        # Employee sınıfının tanımlı olup olmadığını kontrol et
+        if 'Employee' not in globals():
+            self.fail("Employee class not defined. Please create Employee class.")
         
-        # Find numeric class variables
-        numeric_class_vars = []
-        for var_name in class_vars:
-            value = getattr(Employee, var_name)
-            if isinstance(value, (int, float)):
-                numeric_class_vars.append(var_name)
+        # Reset count - ÖNEMLİ: Öğrencinin sınıfını kullan
+        Employee._total_employees = 0
         
-        self.assertTrue(len(numeric_class_vars) > 0,
-                       "Employee should have at least one numeric class variable")
+        # Test 1: Initial count is 0
+        self.assertEqual(Employee.get_total_employees(), 0)
         
-        # Test 2: Class variable changes when instances are created
-        initial_value = getattr(Employee, numeric_class_vars[0])
-        
+        # Test 2: Creating instances increments count
         emp1 = Employee("Alice", 50000)
-        after_first = getattr(Employee, numeric_class_vars[0])
-        self.assertNotEqual(initial_value, after_first,
-                           "Creating an instance should change the class variable")
+        self.assertEqual(Employee.get_total_employees(), 1)
         
-        # Test 3: Each new instance changes the class variable
-        before_second = getattr(Employee, numeric_class_vars[0])
         emp2 = Employee("Bob", 60000)
-        after_second = getattr(Employee, numeric_class_vars[0])
-        self.assertNotEqual(before_second, after_second,
-                           "Each new instance should update the class variable")
+        self.assertEqual(Employee.get_total_employees(), 2)
         
-        # Test 4: 🔥 TRICK - Instance attributes are set correctly
+        # Test 3: Instance attributes are correct
         self.assertEqual(emp1.name, "Alice")
         self.assertEqual(emp1.salary, 50000)
         self.assertEqual(emp2.name, "Bob")
         self.assertEqual(emp2.salary, 60000)
         
-        # Test 5: 🔥 TRICK - The tracking variable is NOT an instance attribute
-        # (It should be accessed via the class, not self)
-        self.assertFalse(hasattr(emp1, numeric_class_vars[0]),
-                        f"'{numeric_class_vars[0]}' should be a class variable, not instance attribute")
+        # Test 4: Class method works from instance too
+        self.assertEqual(emp1.get_total_employees(), 2)
         
-        # Test 6: 🔥 TRICK - Multiple instances share the same class variable
+        # Test 5: Count only increases
         emp3 = Employee("Charlie", 70000)
         emp4 = Employee("Diana", 80000)
+        self.assertEqual(Employee.get_total_employees(), 4)
         
-        # All should see the same class variable value
-        class_var_name = numeric_class_vars[0]
-        value_via_class = getattr(Employee, class_var_name)
-        value_via_emp1_class = getattr(emp1.__class__, class_var_name)
-        value_via_emp2_class = getattr(emp2.__class__, class_var_name)
+        # Test 6: Check if _total_employees is a class variable, not instance
+        self.assertFalse(hasattr(emp1, '_total_employees'), 
+                        "_total_employees should be a class variable, not instance attribute")
+        self.assertTrue(hasattr(Employee, '_total_employees'),
+                       "Employee class should have _total_employees class variable")
         
-        self.assertEqual(value_via_class, value_via_emp1_class)
-        self.assertEqual(value_via_class, value_via_emp2_class)
+        # Test 7: Check method types
+        import types
+        self.assertIsInstance(Employee.get_total_employees, types.MethodType,
+                            "get_total_employees should be a class method")
         
-        # Test 7: 🔥 TRICK - The class variable only increases, never decreases
-        # (Simple check that it's monotonic)
-        values = []
-        for i in range(3):
-            emp = Employee(f"Temp{i}", 10000)
-            values.append(getattr(Employee, class_var_name))
-        
-        # Check values are strictly increasing or at least non-decreasing
-        for i in range(len(values) - 1):
-            self.assertGreaterEqual(values[i + 1], values[i],
-                                   "Class variable should not decrease when creating instances")
-            
     # Exercise 12: Special Methods (__str__ and __repr__)
     def test_exercise12_string_representation(self):
         """Test __str__ and __repr__ methods with focus on proper implementation."""
@@ -535,17 +519,17 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(point.x, 3)
         self.assertEqual(point.y, 4)
         
-        # Test 2: 🔥 TRICK - __str__ method exists (name check)
+        # Test 2: TRICK - __str__ method exists (name check)
         self.assertTrue(hasattr(Point, '__str__'),
                        "Point class must have __str__ method")
         self.assertTrue(callable(point.__str__))
         
-        # Test 3: 🔥 TRICK - __repr__ method exists (name check)
+        # Test 3: TRICK - __repr__ method exists (name check)
         self.assertTrue(hasattr(Point, '__repr__'),
                        "Point class must have __repr__ method")
         self.assertTrue(callable(point.__repr__))
         
-        # Test 4: 🔥 TRICK - Both methods return strings
+        # Test 4: TRICK - Both methods return strings
         str_result = str(point)
         repr_result = repr(point)
         
@@ -554,18 +538,18 @@ class TestLab6(unittest.TestCase):
         self.assertIsInstance(repr_result, str,
                             "__repr__ must return a string")
         
-        # Test 5: 🔥 TRICK - __str__ and __repr__ return DIFFERENT strings
+        # Test 5: TRICK - __str__ and __repr__ return DIFFERENT strings
         self.assertNotEqual(str_result, repr_result,
                           "__str__ and __repr__ should return different formats")
         
-        # Test 6: 🔥 TRICK - __str__ should contain coordinate information
+        # Test 6: TRICK - __str__ should contain coordinate information
         # (Without specifying exact format)
         self.assertIn("3", str_result,
                      "__str__ should include x coordinate")
         self.assertIn("4", str_result,
                      "__str__ should include y coordinate")
         
-        # Test 7: 🔥 TRICK - __repr__ should contain class name and coordinates
+        # Test 7: TRICK - __repr__ should contain class name and coordinates
         self.assertIn("Point", repr_result,
                      "__repr__ should include class name")
         self.assertIn("3", repr_result,
@@ -573,7 +557,7 @@ class TestLab6(unittest.TestCase):
         self.assertIn("4", repr_result,
                      "__repr__ should include y coordinate")
         
-        # Test 8: 🔥 TRICK - eval(repr(point)) should create a similar object
+        # Test 8: TRICK - eval(repr(point)) should create a similar object
         # (Tests that __repr__ is evaluable)
         try:
             new_point = eval(repr_result)
@@ -583,7 +567,7 @@ class TestLab6(unittest.TestCase):
         except:
             self.fail("repr() should return evaluable string that recreates object")
         
-        # Test 9: 🔥 TRICK - Different point coordinates
+        # Test 9: TRICK - Different point coordinates
         p2 = Point(10, -5)
         str2 = str(p2)
         repr2 = repr(p2)
@@ -593,7 +577,7 @@ class TestLab6(unittest.TestCase):
         self.assertIn("10", repr2)
         self.assertIn("-5", repr2)
         
-        # Test 10: 🔥 TRICK - __str__ for negative/zero coordinates
+        # Test 10: TRICK - __str__ for negative/zero coordinates
         p3 = Point(0, -1)
         str3 = str(p3)
         self.assertIn("0", str3)
@@ -628,21 +612,21 @@ class TestLab6(unittest.TestCase):
         self.assertNotEqual(perimeter, new_perimeter,
                           "Perimeter should change after set_dimensions")
         
-        # Test 3: 🔥 HOCA'NIN İSTEDİĞİ TRICK - Private name-mangled attributes exist
+        # Test 3: Private name-mangled attributes exist
         # (Catches students who use public attributes like self.width)
         self.assertTrue(hasattr(rect, '_Rectangle__width'),
                        "Must use private __width attribute (name-mangled)")
         self.assertTrue(hasattr(rect, '_Rectangle__height'),
                        "Must use private __height attribute (name-mangled)")
         
-        # Test 4: 🔥 HOCA'NIN İSTEDİĞİ TRICK - No simple public attributes
+        # Test 4: No simple public attributes
         # (Catches students who use self.width instead of self.__width)
         self.assertFalse(hasattr(rect, 'width'),
                         "Should NOT have public 'width' attribute")
         self.assertFalse(hasattr(rect, 'height'),
                         "Should NOT have public 'height' attribute")
         
-        # Test 5: 🔥 TRICK - Validation prevents invalid dimensions
+        # Test 5: TRICK - Validation prevents invalid dimensions
         rect2 = Rectangle(5, 5)
         initial_area = rect2.get_area()
         
@@ -661,7 +645,7 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(rect2.get_area(), initial_area,
                         "Both invalid should not change dimensions")
         
-        # Test 6: 🔥 TRICK - Only update when BOTH are valid
+        # Test 6: TRICK - Only update when BOTH are valid
         rect3 = Rectangle(2, 3)
         # Store initial state
         initial_state = (rect3.get_area(), rect3.get_perimeter())
@@ -676,7 +660,7 @@ class TestLab6(unittest.TestCase):
         self.assertNotEqual(rect3.get_area(), initial_state[0],
                           "Should update when both dimensions are valid")
         
-        # Test 7: 🔥 TRICK - Instance independence
+        # Test 7: TRICK - Instance independence
         r1 = Rectangle(1, 2)
         r2 = Rectangle(3, 4)
         r1_area_before = r1.get_area()
@@ -689,7 +673,7 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(r2.get_area(), r2_area_before,
                        "r2 should NOT change when r1 is modified")
         
-        # Test 8: 🔥 NEW TRICK - get_area and get_perimeter are consistent
+        # Test 8: NEW TRICK - get_area and get_perimeter are consistent
         # If w=10, h=20, area=200, perimeter should be 60 (2*(10+20))
         # But we won't specify the formula - just test consistency
         rect4 = Rectangle(7, 11)
@@ -701,7 +685,7 @@ class TestLab6(unittest.TestCase):
         self.assertGreater(perimeter4, 7)
         self.assertGreater(perimeter4, 11)
         
-        # Test 9: 🔥 NEW TRICK - set_dimensions with same values should work
+        # Test 9: NEW TRICK - set_dimensions with same values should work
         rect5 = Rectangle(8, 12)
         area_before = rect5.get_area()
         rect5.set_dimensions(8, 12)  # Same values
@@ -735,33 +719,33 @@ class TestLab6(unittest.TestCase):
         self.assertGreater(count_after_second, count_after_first,
                           "Each new instance should increase count")
         
-        # Test 3: 🔥 TRICK - get_instance_count() can be called from class
+        # Test 3: TRICK - get_instance_count() can be called from class
         # (Tests it's a class method or at least works at class level)
         class_count = Counter.get_instance_count()
         self.assertEqual(class_count, count_after_second)
         
-        # Test 4: 🔥 TRICK - get_instance_count() can also be called from instance
+        # Test 4: TRICK - get_instance_count() can also be called from instance
         # (Would fail if implemented as regular instance method without @classmethod)
         instance_count = counter1.get_instance_count()
         self.assertEqual(instance_count, class_count,
                         "Instance call should return same as class call")
         
-        # Test 5: 🔥 TRICK - is_even() method works correctly
+        # Test 5: TRICK - is_even() method works correctly
         self.assertTrue(Counter.is_even(4))
         self.assertFalse(Counter.is_even(5))
         self.assertTrue(Counter.is_even(0))
         self.assertTrue(Counter.is_even(-2))
         self.assertFalse(Counter.is_even(-1))
         
-        # Test 6: 🔥 TRICK - is_even() can be called from class
+        # Test 6: TRICK - is_even() can be called from class
         # (Tests it's accessible at class level)
         self.assertIsInstance(Counter.is_even(10), bool)
         
-        # Test 7: 🔥 TRICK - is_even() can also be called from instance
+        # Test 7: TRICK - is_even() can also be called from instance
         # (Tests it's not an instance method requiring self)
         self.assertIsInstance(counter1.is_even(10), bool)
         
-        # Test 8: 🔥 TRICK - is_even() doesn't depend on instance/class state
+        # Test 8: TRICK - is_even() doesn't depend on instance/class state
         # Create new counter, is_even should work the same
         counter3 = Counter()
         # Should get same result regardless of which instance or class
@@ -769,16 +753,16 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(Counter.is_even(8), counter2.is_even(8))
         self.assertEqual(Counter.is_even(8), counter3.is_even(8))
         
-        # Test 9: 🔥 TRICK - Class variable is not an instance attribute
+        # Test 9: TRICK - Class variable is not an instance attribute
         # (Students might incorrectly use instance variable)
         self.assertFalse(hasattr(counter1, 'instance_count'),
                         "Counting should be at class level, not instance")
         
-        # Test 10: 🔥 NEW TRICK - Large numbers work with is_even()
+        # Test 10: NEW TRICK - Large numbers work with is_even()
         self.assertTrue(Counter.is_even(1000000))
         self.assertFalse(Counter.is_even(1000001))
         
-        # Test 11: 🔥 NEW TRICK - Even check works with different numeric types
+        # Test 11: NEW TRICK - Even check works with different numeric types
         # (float with integer value)
         self.assertTrue(Counter.is_even(6.0))
         # (But odd float should still be False)
@@ -788,11 +772,18 @@ class TestLab6(unittest.TestCase):
     def test_exercise15_inheritance_method_chaining(self):
         """Test inheritance hierarchy with method overriding and super() usage."""
         
+        # Öğrencinin sınıflarının tanımlı olup olmadığını kontrol et
+        if 'Vehicle' not in globals():
+            self.fail("Vehicle class not defined. Please create Vehicle class.")
+        
+        if 'Car' not in globals():
+            self.fail("Car class not defined. Please create Car class that inherits from Vehicle.")
+        
         # Test 1: Both classes can be instantiated
         vehicle = Vehicle("Blue", 150)
-        car = Car("Red", 200, "ModelX")
+        car = Car("Red", 200, 4)
         
-        # Test 2: 🔥 TRICK - Car inherits from Vehicle
+        # Test 2: Car inherits from Vehicle
         self.assertIsInstance(car, Vehicle)
         
         # Test 3: Vehicle has expected attributes
@@ -802,58 +793,75 @@ class TestLab6(unittest.TestCase):
         # Test 4: Car has all Vehicle attributes plus its own
         self.assertEqual(car.color, "Red")
         self.assertEqual(car.max_speed, 200)
-        # Check for car-specific attribute (name not specified in test)
-        # We'll check that car has at least one attribute not in vehicle
-        vehicle_attrs = set(dir(vehicle))
-        car_attrs = set(dir(car))
-        extra_attrs = car_attrs - vehicle_attrs
-        # Remove dunder methods and common attributes
-        extra_attrs = {a for a in extra_attrs if not a.startswith('__')}
-        self.assertTrue(len(extra_attrs) > 0,
-                       "Car should have additional attributes beyond Vehicle")
+        self.assertEqual(car.num_doors, 4)
         
-        # Test 5: 🔥 TRICK - describe() methods exist and return strings
+        # Test 5: describe() methods exist and return strings
         vehicle_desc = vehicle.describe()
         car_desc = car.describe()
         
         self.assertIsInstance(vehicle_desc, str)
         self.assertIsInstance(car_desc, str)
         
-        # Test 6: 🔥 TRICK - Car.describe() includes Vehicle information
+        # Test 6: Car.describe() includes Vehicle information
         self.assertIn("Red", car_desc)
         self.assertIn("200", car_desc)
         
-        # Test 7: 🔥 TRICK - Car.describe() is different from Vehicle.describe()
+        # Test 7: Car.describe() is different from Vehicle.describe()
         self.assertNotEqual(vehicle_desc, car_desc,
                           "Car should override describe() method")
         
-        # Test 8: 🔥 TRICK - Car.describe() includes car-specific information
-        # Check that it includes the extra attribute value
-        # Since we don't know the attribute name, check for the value
-        self.assertIn("ModelX", car_desc)
+        # Test 8: Car.describe() includes car-specific information
+        self.assertIn("4", car_desc)
+        self.assertIn("doors", car_desc.lower())
         
-        # Test 9: 🔥 TRICK - Multiple cars work independently
-        car2 = Car("White", 180, "Sedan")
+        # Test 9: Multiple cars work independently
+        car2 = Car("White", 180, 2)
         car2_desc = car2.describe()
         self.assertIn("White", car2_desc)
         self.assertIn("180", car2_desc)
-        self.assertIn("Sedan", car2_desc)
+        self.assertIn("2", car2_desc)
         self.assertNotEqual(car_desc, car2_desc)
         
-        # Test 10: 🔥 NEW TRICK - Vehicle.describe() for different vehicle
+        # Test 10: Vehicle.describe() for different vehicle
         vehicle2 = Vehicle("Green", 120)
         vehicle2_desc = vehicle2.describe()
         self.assertIn("Green", vehicle2_desc)
         self.assertIn("120", vehicle2_desc)
         
-        # Test 11: 🔥 NEW TRICK - Method signature compatibility
-        # Both describe() methods should take the same parameters (just self)
+        # Test 11: Method signature compatibility
         import inspect
         vehicle_sig = inspect.signature(vehicle.describe)
         car_sig = inspect.signature(car.describe)
         self.assertEqual(len(vehicle_sig.parameters), len(car_sig.parameters),
-                        "describe() should have same parameter count in both classes")
+                        "describe() should have same parameter count")
         
+        # Test 12: Exact format matching (CRITICAL - matches problem statement)
+        expected_vehicle_desc = "Vehicle: color=Blue, max_speed=150km/h"
+        expected_car_desc = "Car: color=Red, max_speed=200km/h, doors=4"
+        
+        self.assertEqual(vehicle.describe(), expected_vehicle_desc,
+                        f"Expected: '{expected_vehicle_desc}', Got: '{vehicle.describe()}'")
+        self.assertEqual(car.describe(), expected_car_desc,
+                        f"Expected: '{expected_car_desc}', Got: '{car.describe()}'")
+        
+        # Test 13: Check if super() was used properly
+        # Car'ın __init__'inde Vehicle.__init__'ini çağırması gerekiyor
+        try:
+            # Try to create a Car without proper initialization
+            test_car = Car("Test", 100, 2)
+            # If we get here, it should have color and max_speed
+            self.assertTrue(hasattr(test_car, 'color'), "Car should have color attribute")
+            self.assertTrue(hasattr(test_car, 'max_speed'), "Car should have max_speed attribute")
+        except Exception as e:
+            self.fail(f"Failed to create Car instance: {e}")
+        
+        # Test 14: Inheritance check
+        self.assertTrue(issubclass(Car, Vehicle), "Car must inherit from Vehicle")
+        
+        # Test 15: Override check
+        self.assertNotEqual(Vehicle.describe, Car.describe,
+                          "Car should override the describe method")
+
     # Exercise 16: Composition over Inheritance
     def test_exercise16_composition_over_inheritance(self):
         """Test composition pattern where objects contain other objects."""
@@ -870,7 +878,7 @@ class TestLab6(unittest.TestCase):
         except NameError:
             self.fail("Expected classes (Car and Engine) not defined")
         
-        # Test 3: 🔥 TRICK - Vehicle HAS a component (composition)
+        # Test 3: TRICK - Vehicle HAS a component (composition)
         self.assertTrue(hasattr(vehicle, 'engine') or hasattr(vehicle, 'motor') or 
                        hasattr(vehicle, 'component'),
                        "Vehicle should contain a component object")
@@ -896,7 +904,7 @@ class TestLab6(unittest.TestCase):
         # Test 5: Vehicle has brand attribute
         self.assertEqual(vehicle.brand, "Toyota")
         
-        # Test 6: 🔥 TRICK - Component power matches initialization value
+        # Test 6: TRICK - Component power matches initialization value
         # Find the power attribute
         power_attr = None
         for attr in ['horsepower', 'power', 'capacity']:
@@ -918,7 +926,7 @@ class TestLab6(unittest.TestCase):
                        hasattr(vehicle, 'run'),
                        "Vehicle should have activation method")
         
-        # Test 8: 🔥 TRICK - Vehicle method delegates to component method
+        # Test 8: TRICK - Vehicle method delegates to component method
         vehicle_method_name = 'start' if hasattr(vehicle, 'start') else \
                              'activate' if hasattr(vehicle, 'activate') else 'run'
         component_method_name = 'start' if hasattr(component_obj, 'start') else \
@@ -934,10 +942,10 @@ class TestLab6(unittest.TestCase):
         self.assertIn(component_result, vehicle_result,
                      "Vehicle method should incorporate component method result")
         
-        # Test 9: 🔥 TRICK - Vehicle result includes vehicle-specific info
+        # Test 9: TRICK - Vehicle result includes vehicle-specific info
         self.assertIn("Toyota", vehicle_result)
         
-        # Test 10: 🔥 TRICK - Vehicle result includes component power info
+        # Test 10: TRICK - Vehicle result includes component power info
         self.assertIn("150", vehicle_result)
         
         # Test 11: Different vehicle works correctly
@@ -959,7 +967,7 @@ class TestLab6(unittest.TestCase):
         
         self.assertEqual(getattr(component_obj2, power_attr2), 300)
         
-        # Test 12: 🔥 NEW TRICK - Components are independent (deep copy)
+        # Test 12: NEW TRICK - Components are independent (deep copy)
         # Modifying one vehicle's component shouldn't affect another
         original_power = getattr(component_obj2, power_attr2)
         setattr(component_obj, power_attr, 999)  # Modify first vehicle's component
@@ -969,6 +977,13 @@ class TestLab6(unittest.TestCase):
         
 def calculate_score():
     """Calculate and display score"""
+    import re
+    import importlib
+    import sys
+    
+    if 'lab6_exercises' in sys.modules:
+        importlib.reload(sys.modules['lab6_exercises'])
+    
     loader = unittest.TestLoader()
     suite = loader.loadTestsFromTestCase(TestLab6)
     runner = unittest.TextTestRunner(verbosity=2)
@@ -977,52 +992,77 @@ def calculate_score():
     total_tests = result.testsRun
     failures = len(result.failures)
     errors = len(result.errors)
-    skipped = len(getattr(result, 'skipped', []))  # Skip edilen testler
-    passed = total_tests - failures - errors - skipped  # Skip edilenleri çıkar
+    skipped = len(getattr(result, 'skipped', []))
+    passed = total_tests - failures - errors - skipped
     
     print("\n" + "=" * 50)
     print(f"LAB 6 RESULTS: {passed}/{total_tests} tests passed")
+    print(f"Failed tests: {failures}")
+    print(f"Error tests: {errors}")
     print(f"Skipped tests: {skipped}")
-    
-    # Calculate section scores - ONLY count actually passed tests
-    section_a_tests = 6  # Exercises 1-6
-    section_b_tests = 6  # Exercises 7-12
-    section_c_tests = 4  # Exercises 13-16
-    
-    # Calculate how many tests passed in each section
-    # We need to track which tests belong to which section
+
+    # Section counters
     section_a_passed = 0
     section_b_passed = 0
     section_c_passed = 0
     
-    # Simpler approach: Track section passes based on test names
-    # Count passed tests by checking test names
-    if hasattr(result, '_test_run_results'):
-        for test_case in result._test_run_results:
-            if test_case[0] == 'passed':  # If test passed
-                test_name = test_case[1]
-                if 'exercise1' in test_name or 'exercise2' in test_name or 'exercise3' in test_name or 'exercise4' in test_name or 'exercise5' in test_name or 'exercise6' in test_name:
+    # Extract list of failed tests
+    failed_test_names = {fail[0]._testMethodName for fail in result.failures}
+    failed_test_names |= {err[0]._testMethodName for err in result.errors}
+    
+    # Find all test methods
+    test_methods = [m for m in dir(TestLab6) if m.startswith("test_exercise")]
+
+    for method_name in test_methods:
+        if method_name not in failed_test_names:
+            match = re.match(r"test_exercise(\d+)", method_name)
+            if match:
+                exercise_num = int(match.group(1))
+
+                # Chapter matching
+                if 1 <= exercise_num <= 6:
                     section_a_passed += 1
-                elif 'exercise7' in test_name or 'exercise8' in test_name or 'exercise9' in test_name or 'exercise10' in test_name or 'exercise11' in test_name or 'exercise12' in test_name:
+                elif 7 <= exercise_num <= 12:
                     section_b_passed += 1
-                elif 'exercise13' in test_name or 'exercise14' in test_name or 'exercise15' in test_name or 'exercise16' in test_name:
+                elif 13 <= exercise_num <= 16:
                     section_c_passed += 1
-    
-    # Alternative: Use a more robust approach
-    section_a_passed = min(passed, 6)  # Max 6 tests in section A
-    section_b_passed = max(0, min(passed - section_a_passed, 6))  # Max 6 in B
-    section_c_passed = max(0, min(passed - section_a_passed - section_b_passed, 4))  # Max 4 in C
-    
+            else:
+                # Let's try alternative regex
+                match2 = re.match(r"test_exercise(\d+)_", method_name)
+                if match2:
+                    exercise_num = int(match2.group(1))
+                    if 1 <= exercise_num <= 6:
+                        section_a_passed += 1
+                    elif 7 <= exercise_num <= 12:
+                        section_b_passed += 1
+                    elif 13 <= exercise_num <= 16:
+                        section_c_passed += 1
+
+    # Score calculation
     section_a_score = section_a_passed * 2
     section_b_score = section_b_passed * 3
     section_c_score = section_c_passed * 5
-    
     total_score = section_a_score + section_b_score + section_c_score
-    
+
     print("\nSECTION SCORES:")
     print(f"Section A (Easy): {section_a_passed}/6 passed = {section_a_score}/12 points")
     print(f"Section B (Medium): {section_b_passed}/6 passed = {section_b_score}/18 points")
     print(f"Section C (Hard): {section_c_passed}/4 passed = {section_c_score}/20 points")
+    
+    print(f"\nDETAILED RESULTS:")
+    # Show which tests passed/failed
+    for i in range(1, 17):
+        test_name = f"test_exercise{i}_"
+        found = False
+        for method in test_methods:
+            if method.startswith(test_name):
+                found = True
+                status = "✓ PASSED" if method not in failed_test_names else "✗ FAILED"
+                print(f"  Exercise {i}: {status}")
+                break
+        if not found:
+            print(f"  Exercise {i}: NOT FOUND")
+    
     print(f"\nTOTAL SCORE: {total_score}/44 points")
     print(f"PERCENTAGE: {(total_score/44)*100:.1f}%")
     print("=" * 50)

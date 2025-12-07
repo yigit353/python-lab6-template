@@ -34,7 +34,9 @@ def clean_filename(filename):
         str: The cleaned filename.
     """
     # TODO: Implement the cleaning logic using basic string methods.
-    pass
+    #Important: Function name MUST be 'clean_filename'.
+
+
 
 # ==========================================
 # EXERCISE 2: Week 5 Reminder - Dictionary Operations (2 points)
@@ -53,8 +55,8 @@ def merge_dicts(dict1, dict2):
         dict: A new dictionary containing the merged key-value pairs.
     """
     # TODO: Implement the merge without modifying the original dictionaries.
+    # IMPORTANT: Function name MUST be exactly "merge_dicts"
     # Hint: Consider how to create a new dictionary and combine key-value pairs.
-    pass
 
 
 # ==========================================
@@ -62,8 +64,9 @@ def merge_dicts(dict1, dict2):
 # ==========================================
 def filter_by_length(strings, min_len):
     """
-    Return a new list containing only the strings from the input list
-    whose length is greater than or equal to the specified minimum length.
+    Return a new list containing only the strings whose length is  
+    greater than OR EQUAL TO the specified minimum length.
+
     The original list must not be modified, and the order of elements
     must be preserved.
 
@@ -75,21 +78,28 @@ def filter_by_length(strings, min_len):
         list: A new list containing the filtered strings.
     """
     # TODO: Implement the filter. Ensure the original list remains unchanged.
-    pass
+    # IMPORTANT: Function name MUST be exactly "filter_by_length"
+
+
 
 
 # ==========================================
 # EXERCISE 4: Week 6 - Simple Class (2 points)
 # ==========================================
 # TODO: Create a Person class from scratch.
-# The class must have:
-#   1. An __init__(self, name, age) method that stores the provided name and age.
-#   2. Instance attributes named 'name' and 'age'.
-#   3. A method named get_info(self) that returns a string in the exact format:
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Person
+# - Method names: __init__, get_info
+# - Attribute names: name, age
+#
+# Requirements:
+#   1. An __init__(self, name, age) method that stores the provided name and age
+#      in instance attributes named exactly 'name' and 'age'.
+#   2. A method named get_info(self) that returns a string in the exact format:
 #      "Name: {name}, Age: {age}"
-# Important: Do not modify the method signature or attribute names.
-
+# 
 # Student writes the class here
+
 
 
 
@@ -97,40 +107,52 @@ def filter_by_length(strings, min_len):
 # EXERCISE 5: Week 6 - Basic Inheritance (2 points)
 # ==========================================
 # TODO: In this exercise, create TWO classes from scratch:
-# 
-# 1. Person class with:
-#    - __init__(self, name, age) method that stores name and age as instance attributes.
-#    - get_info(self) method that returns a string: "Name: {name}, Age: {age}"
-#
-# 2. Student class that INHERITS from Person:
-#    - __init__(self, name, age, student_id) method.
-#    - Must use super() to initialize the name and age attributes from the parent class.
-#    - Add a student_id instance attribute.
-#    - Override the get_info() method to return:
-#      "Name: {name}, Age: {age}, ID: {student_id}"
-#
-# Important: Do not copy-paste code from Person to Student. Use proper inheritance.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: Shape, Circle
+# - Method names: __init__, get_info
+# - Attribute names for Shape: color
+# - Attribute names for Circle: color, radius
 
+# Requirements:
+# 1. Shape class with:
+#    - __init__(self, color) method that stores color as instance attribute
+#    - get_info(self) method that returns a string: "Shape color: {color}"
+#
+# 2. Circle class that INHERITS from Shape:
+#    - __init__(self, color, radius) method
+#    - Must use super() to initialize the color attribute from parent class
+#    - Add radius instance attribute
+#    - Override get_info() method to return:
+#      "Circle color: {color}, Radius: {radius}"
+#
+# Important: Do not copy-paste code from Shape to Circle. Use proper inheritance.
+# NOTE: This exercise is independent.
+# If a Shape class was created in Exercise 4, DO NOT reuse it. You must rewrite a fresh Shape class here.
 # Student writes both classes here
+
 
 
 # ==========================================
 # EXERCISE 6: Week 6 - Method Overriding (2 points)
 # ==========================================
-
 # TODO: Create two classes from scratch:
-# 
-# 1. Animal class:
-#    - Has a method called speak(self)
-#    - The speak() method should not return any meaningful value.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: Device, Smartphone
+# - Method names: get_sound
+#
+# Requirements:
+# 1. Device class:
+#    - Has a method called get_sound(self)
+#    - The get_sound() method should not return any meaningful value.
 #      (Use pass or return None)
 #
-# 2. Dog class:
-#    - MUST inherit from Animal
-#    - MUST override the speak() method
-#    - The overridden speak() method MUST return the exact string: "Woof!"
+# 2. Smartphone class:
+#    - MUST inherit from Device
+#    - MUST override the get_sound() method
+#    - The overridden get_sound() method MUST return the exact string: "Ring!"
 #
 # Write both classes below. Do not include any test code.
+
 
 
 
@@ -143,8 +165,12 @@ def filter_by_length(strings, min_len):
 # EXERCISE 7: Create Simple Class (3 points)
 # ==========================================
 # TODO: Create a Product class from scratch for an e-commerce system.
-# 
-# The class must have:
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Product
+# - Method names: __init__, get_total_value, apply_discount
+# - Attribute names: name, price, quantity
+#
+# Requirements:
 #   1. __init__(self, name, price, quantity) method
 #      - Stores name, price, and quantity as instance attributes.
 #   
@@ -160,73 +186,85 @@ def filter_by_length(strings, min_len):
 # Important: The class should handle its own state; methods should not
 # require external calculations. All calculations must be done within
 # the class methods.
-
 # Write your Product class below:
+
+
 
 
 # ==========================================
 # EXERCISE 8: Inheritance (3 points)
 # ==========================================
-# TODO: Create a book tracking system using inheritance.
-# 
+# TODO: Create a clothing tracking system using inheritance.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: ClothingItem, Shoe
+# - Method names: __init__, calculate_price
+# - Attribute names for ClothingItem: name, price, quantity
+# - Attribute names for Shoe: name, price, quantity, brand, size
+#
 # IMPORTANT: This exercise is COMPLETELY INDEPENDENT from Exercise 7.
 # You must create all classes from scratch here.
 #
-# Create TWO classes:
-#
-# 1. Product class:
+# Requirements:
+# 1. ClothingItem class:
 #    - __init__(self, name, price, quantity) method
 #    - Stores name, price, and quantity as instance attributes
-#    - get_total_value(self) method that returns price multiplied by quantity
+#    - calculate_price(self) method that returns price multiplied by quantity
 #
-# 2. Book class (inherits from Product):
-#    - __init__(self, name, price, quantity, author, pages) method
-#    - Must use super() to initialize name, price, and quantity from Product
-#    - Adds two new instance attributes: author and pages
-#    - Overrides the get_total_value() method
-#    - The overridden method should include an additional calculation
-#      beyond the basic price × quantity formula
+# 2. Shoe class (inherits from ClothingItem):
+#    - __init__(self, name, price, quantity, brand, size) method
+#    - Must use super() to initialize name, price, and quantity from ClothingItem
+#    - Adds two new instance attributes: brand and size
+#    - Overrides the calculate_price() method
+#    - Must return a value noticeably different from (price × quantity)
+#    - (Example: adding a size-based surcharge such as +5 per size above 40, 
+#      OR adding a brand premium)
 #
 # Note: Do not copy any code from Exercise 7. Write everything fresh.
-# The exact nature of the "additional calculation" is part of the challenge.
-
 # Write both classes below:
+
+
 
 # ==========================================
 # EXERCISE 9: Encapsulation (3 points)
 # ==========================================
 # TODO: Create a BankAccount class that demonstrates proper encapsulation.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: BankAccount
+# - Method names: __init__, deposit, withdraw, get_balance
+# - Private attribute MUST be named __balance (double underscore, name-mangled)
 #
-# The class should manage a bank account balance with the following requirements:
-#
-# 1. The balance should be stored in a way that prevents direct external access.
-# 2. The class should have an __init__ method that accepts an initial balance.
-# 3. It should have methods to deposit money and withdraw money.
-# 4. It should have a method to retrieve the current balance.
-# 5. Withdrawals should only succeed if sufficient funds are available.
-#
-# The exact implementation details (attribute names, method signatures, 
-# and internal validation logic) are part of the challenge.
+# Requirements:
+# 1. The balance should be stored as a private attribute named _balance
+# 2. The class should have an __init__(self, initial_balance) method
+# 3. It should have methods:
+#    - deposit(self, amount): adds amount to balance
+#    - withdraw(self, amount): subtracts amount from balance if sufficient funds
+#    - get_balance(self): returns current balance
+# 4. Withdrawals should only succeed if sufficient funds are available
+# 5. The _balance attribute should not be directly accessible from outside
 #
 # Write your BankAccount class below:
+
+
 
 
 # ==========================================
 # EXERCISE 10: Polymorphism (3 points)
 # ==========================================
 # TODO: Create a demonstration of polymorphism with animals.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: AnimalBase, Dog, Cat
+# - Method names: speak
+# - Function name: animal_concert
 #
-# You need to create the following from scratch:
-#
+# Requirements:
 # 1. An AnimalBase class:
 #    - Must have a speak(self) method.
-#    - The base implementation should not return a meaningful string.
+#    - The base implementation should return an empty string "".
 #
 # 2. Two subclasses that inherit from AnimalBase:
-#    - Dog class
-#    - Cat class
-#    - Each must override the speak() method.
-#    - Each must return a DIFFERENT, specific string when speak() is called.
+#    - Dog class: speak() method returns exactly "Woof!"
+#    - Cat class: speak() method returns exactly "Meow!"
 #
 # 3. A function named animal_concert(animals):
 #    - Takes a single parameter: a list of AnimalBase objects.
@@ -235,80 +273,91 @@ def filter_by_length(strings, min_len):
 #    - Should preserve the order of the input list.
 #
 # Important: All classes and the function must be written from scratch.
-# Do not use any code from previous exercises.
+# NOTE: This exercise is independent from Exercise 6.
+# You must rewrite the Dog class here from scratch.
 
 # Write all your code below (classes and function):
+
 
 
 # ==========================================
 # EXERCISE 11: Class Variables (3 points)
 # ==========================================
 # TODO: Create an Employee class that demonstrates the use of class variables.
-#
-# The class should track information at the class level (shared among all instances)
-# as well as having regular instance attributes.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Employee
+# The class variable must NOT appear on any instance. It must exist only on the class.
+# - Method names: __init__, get_total_employees (class method)
+# - Attribute names: name, salary
 #
 # Requirements:
-#
-# 1. The class must have a class-level variable that tracks how many
-#    Employee instances have been created.
-#
+# 1. The class must have a class-level variable named _total_employees 
+#    that tracks how many Employee instances have been created.
 # 2. Each instance should store its own name and salary.
+# 3. When a new Employee instance is created, _total_employees should increment.
+# 4. Add a class method named get_total_employees() that returns the current count.
+# 5. The class variable should be accessible at the class level.
 #
-# 3. When a new Employee instance is created, the class-level tracking
-#    variable should be updated appropriately.
-#
-# 4. The tracking variable should be accessible at the class level,
-#    not requiring an instance to access it.
-#
-# The exact names of the attributes and implementation details are
-# part of the challenge.
-
 # Write your Employee class below:
+
+    
 
 
 # ==========================================
 # EXERCISE 12: String Representation (3 points)
 # ==========================================
 # TODO: Create a Point class that represents a 2D point with special string methods.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Point
+# - Method names: __init__, __str__, __repr__
+# - Attribute names: x, y
 #
-# The class should have:
-# 1. An __init__ method that stores x and y coordinates.
-# 2. A __str__ method that returns a human-readable string representation.
-# 3. A __repr__ method that returns an unambiguous string representation.
+# Requirements:
+# 1. An __init__(self, x, y) method that stores x and y coordinates.
+# 2. A __str__(self) method that returns format: "Point at ({x}, {y})"
+# 3. A __repr__(self) method that returns format: "Point({x}, {y})"
 #
 # Important notes about the special methods:
 # - __str__ is called by str(), print(), and format() functions.
 # - __repr__ is called by repr() and should ideally allow object recreation.
 # - Both methods must return strings.
-# - The two methods should return DIFFERENT string formats.
 #
-# The exact format of the returned strings is part of the challenge.
-# Focus on making __str__ user-friendly and __repr__ developer-friendly.
-
 # Write your Point class below:
 
+
+
 # ==========================================
+# SECTION C: HARD - ADVANCED OOP CONCEPTS (20 points)
+# Advanced OOP principles (5 points each)
+# ==========================================
+ #==========================================
 # EXERCISE 13: Encapsulation and Computed Property (5 points)
 # ==========================================
 # TODO: Create a Rectangle class that demonstrates strong encapsulation
 # and computed properties.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Rectangle
+# - Method names: __init__, set_dimensions, get_area, get_perimeter
+# - Private attribute names: __width, __height
 #
-# The class should represent a rectangle with the following requirements:
+# Requirements:
+# 1. The rectangle's dimensions should be stored as private attributes:
+#    - __width (float/int)
+#    - __height (float/int)
 #
-# 1. The rectangle's dimensions should be stored in a way that prevents
-#    direct external access or modification.
+# 2. The class should have an __init__(self, width, height) method 
+#    to set initial dimensions with validation.
 #
-# 2. The class should have an __init__ method to set initial dimensions.
+# 3. It should have a method set_dimensions(self, width, height):
+#    - Updates both dimensions at once
+#    - Validates that width and height are positive numbers (> 0)
+#    - If validation fails, the dimensions must NOT change (no exception).
 #
-# 3. It should have a method to update both dimensions at once,
-#    with appropriate validation to ensure only valid dimensions are set.
+# 4. It should have methods:
+#    - get_area(self): returns area (width × height)
+#    - get_perimeter(self): returns perimeter (2 × (width + height))
 #
-# 4. It should have methods to calculate and return:
-#    - The area of the rectangle
-#    - The perimeter of the rectangle
-#
-# 5. The validation should ensure dimensions are valid geometric values.
+# 5. Validation should ensure dimensions are valid geometric values.
 #
 # Important: Focus on proper encapsulation. The internal representation
 # should be hidden, and all interactions should go through the class methods.
@@ -316,29 +365,40 @@ def filter_by_length(strings, min_len):
 # Write your Rectangle class below:
 
 
+
+
 # ==========================================
 # EXERCISE 14: Class Method for Tracking (5 points)
 # ==========================================
 # TODO: Create a Counter class that demonstrates the use of both
 # class methods and static methods.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class name: Counter
+# - Class variable name: _count
+# - Method names: __init__, get_instance_count, is_even (static method)
 #
-# The class should have the following characteristics:
-#
+# Requirements:
 # 1. It should track how many instances of Counter have been created,
-#    using a class-level mechanism (not instance-level).
+#    using a class-level variable named _count.
 #
-# 2. It should provide a way to retrieve the current count of instances
-#    through a method that operates at the class level.
+# 2. It should provide a class method named get_instance_count that retrieves 
+#    the current count of instances.
 #
-# 3. It should also provide a utility method that performs a calculation
-#    without needing access to any instance or class data.
-#    This method should determine whether a given number is even.
+# 3. It should also provide a static method named is_even(number) that:
+#    - Takes a number as parameter
+#    - Returns True if the number is even, False otherwise
+#    - Does not need access to any instance or class data
 #
 # Important: Pay attention to which methods should operate on the class
-# versus which should be standalone utilities. The method types should
-# be chosen appropriately based on their responsibilities.
+# versus which should be standalone utilities. Use @classmethod and @staticmethod
+# decorators appropriately.
+# NOTE: get_instance_count MUST work when called from both:
+# - the class: Counter.get_instance_count()
+# - and an instance: obj.get_instance_count()
 #
 # Write your Counter class below:
+
+
 
 
 # ==========================================
@@ -346,55 +406,69 @@ def filter_by_length(strings, min_len):
 # ==========================================
 # TODO: Create a vehicle class hierarchy demonstrating inheritance
 # and method overriding with proper use of super().
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: Vehicle, Car
+# - Method names: __init__, describe
+# - Attribute names for Vehicle: color, max_speed
+# - Attribute names for Car: color, max_speed, num_doors
 #
-# You need to create TWO classes from scratch:
-#
+# Requirements:
 # 1. A Vehicle base class with:
-#    - An __init__ method that takes color and max_speed parameters.
-#    - A describe() method that returns a string containing information
-#      about the vehicle.
+#    - An __init__(self, color, max_speed) method
+#    - A describe(self) method that returns format: 
+#      "Vehicle: color={color}, max_speed={max_speed}km/h"
 #
 # 2. A Car class that inherits from Vehicle:
-#    - Should have all the attributes of Vehicle plus an additional
-#      attribute specific to cars.
-#    - Should override the describe() method to include information
-#      from the parent class PLUS the additional car-specific information.
-#    - Must use proper inheritance techniques to avoid code duplication.
+#    - __init__(self, color, max_speed, num_doors) method
+#    - Must use super() to initialize color and max_speed
+#    - Adds num_doors instance attribute
+#    - Overrides the describe() method to return format:
+#      "Car: color={color}, max_speed={max_speed}km/h, doors={num_doors}"
 #
-# The exact attribute names, method implementations, and string formats
-# are part of the challenge. Focus on creating a logical class hierarchy
-# where the child class extends the parent class functionality.
+# The exact string formats must match exactly as shown above.
+# Focus on creating a logical class hierarchy where the child class 
+# extends the parent class functionality.
 #
 # Write both classes below:
+
 
 
 # ==========================================
 # EXERCISE 16: Composition over Inheritance (5 points)
 # ==========================================
 # TODO: Create a system demonstrating the "composition over inheritance" principle.
-#
-# You need to create a small system with two classes that show how objects
-# can contain other objects (composition) rather than inheriting from them.
+# IMPORTANT: You MUST use EXACTLY these names:
+# - Class names: Engine, Car
+# - Method names for Engine: __init__, activate
+# - Method names for Car: __init__, start
+# - Attribute names for Engine: horsepower
+# - Attribute names for Car: brand, engine
 #
 # Requirements:
+# 1. Create an Engine class that represents a mechanical part with:
+#    - __init__(self, horsepower) method storing horsepower
+#    - activate(self) method returning format: "Engine with {horsepower}HP started"
 #
-# 1. Create a component class that represents a mechanical part with:
-#    - A numeric attribute representing its power or capacity.
-#    - A method that returns a string describing its activation.
+# 2. Create a Car class that represents a vehicle with:
+#    - __init__(self, brand, engine_horsepower) method
+#      * Stores brand as instance attribute
+#      * Creates an Engine instance with engine_horsepower and stores it 
+#        as an instance attribute named engine (COMPOSITION)
+#    - start(self) method that returns format:
+#      "{brand} car: {engine_activation_string}"
+#      where engine_activation_string is the result of calling engine.activate()
 #
-# 2. Create a composite class that represents a vehicle with:
-#    - An attribute for its brand/make.
-#    - An instance of the component class as an attribute (composition).
-#    - A method that activates the vehicle by utilizing the component's
-#      activation method and combines it with the vehicle's own information.
+# The key concept is that the Car HAS-A Engine (composition),
+# rather than IS-A Engine (inheritance).
 #
-# The key concept is that the vehicle HAS-A component (composition),
-# rather than IS-A component (inheritance).
-#
-# The exact class names, attribute names, method implementations, and
-# string formats are part of the challenge.
+# The start() method MUST include the exact result of engine.activate() 
+# inside the returned string.
+
+# The exact string formats must match exactly as shown above.
 #
 # Write both classes below:
+
+
 
 
 # ==========================================
