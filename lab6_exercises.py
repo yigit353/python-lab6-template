@@ -404,26 +404,26 @@ def filter_by_length(strings, min_len):
 # ==========================================
 # EXERCISE 15: Inheritance and Method Chaining (5 points)
 # ==========================================
-# TODO: Create a vehicle class hierarchy demonstrating inheritance
+# TODO: Create a Furniture class hierarchy demonstrating inheritance
 # and method overriding with proper use of super().
 # IMPORTANT: You MUST use EXACTLY these names:
-# - Class names: Vehicle, Car
+# - Class names: Furniture, Chair
 # - Method names: __init__, describe
-# - Attribute names for Vehicle: color, max_speed
-# - Attribute names for Car: color, max_speed, num_doors
+# - Attribute names for Furniture: style, material
+# - Attribute names for Chair: style, material, num_legs
 #
 # Requirements:
-# 1. A Vehicle base class with:
-#    - An __init__(self, color, max_speed) method
-#    - A describe(self) method that returns format: 
-#      "Vehicle: color={color}, max_speed={max_speed}km/h"
+# 1. A Furniture base class with:
+#    - An __init__(self, style, material) method
+#    - A describe(self) method that returns format:
+#      "Furniture: style={style}, material={material}"
 #
-# 2. A Car class that inherits from Vehicle:
-#    - __init__(self, color, max_speed, num_doors) method
-#    - Must use super() to initialize color and max_speed
-#    - Adds num_doors instance attribute
+# 2. A Chair class that inherits from Furniture:
+#    - __init__(self, style, material, num_legs) method
+#    - Must use super() to initialize style and material
+#    - Adds num_legs instance attribute
 #    - Overrides the describe() method to return format:
-#      "Car: color={color}, max_speed={max_speed}km/h, doors={num_doors}"
+#      "Chair: style={style}, material={material}, legs={num_legs}"
 #
 # The exact string formats must match exactly as shown above.
 # Focus on creating a logical class hierarchy where the child class 

@@ -74,7 +74,7 @@ jobs:
         with:
           test-name: Exercise 5 - Basic Inheritance
           setup-command: ""
-          command: python -m pytest test_lab6.py::TestLab6::test_exercise5_student_inheritance -v
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise5_circle_inheritance -v
           timeout: 10
           max-score: 2
 
@@ -99,13 +99,13 @@ jobs:
           timeout: 10
           max-score: 3
 
-      - name: Exercise 8 - Book Inheritance
+      - name: Exercise 8 - Inheritance (Shoe)
         id: exercise-8
         uses: classroom-resources/autograding-command-grader@v1
         with:
-          test-name: Exercise 8 - Book Inheritance
+          test-name: Exercise 8 - Inheritance (Shoe)
           setup-command: ""
-          command: python -m pytest test_lab6.py::TestLab6::test_exercise8_book_inheritance -v
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise8_shoe_inheritance -v
           timeout: 10
           max-score: 3
 
@@ -150,13 +150,13 @@ jobs:
           max-score: 3
 
       # Section C Tests
-      - name: Exercise 13 - Property Decorators
+      - name: Exercise 13 - Rectangle Encapsulation
         id: exercise-13
         uses: classroom-resources/autograding-command-grader@v1
         with:
-          test-name: Exercise 13 - Property Decorators
+          test-name: Exercise 13 - Rectangle Encapsulation
           setup-command: ""
-          command: python -m pytest test_lab6.py::TestLab6::test_exercise13_property_decorators -v
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise13_rectangle_encapsulation -v
           timeout: 10
           max-score: 5
 
@@ -170,13 +170,13 @@ jobs:
           timeout: 10
           max-score: 5
 
-      - name: Exercise 15 - Iterator Protocol
+      - name: Exercise 15 - Inheritance Chaining
         id: exercise-15
         uses: classroom-resources/autograding-command-grader@v1
         with:
-          test-name: Exercise 15 - Iterator Protocol
+          test-name: Exercise 15 - Inheritance Chaining
           setup-command: ""
-          command: python -m pytest test_lab6.py::TestLab6::test_exercise15_iterator_protocol -v
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise15_inheritance_method_chaining -v
           timeout: 10
           max-score: 5
 
@@ -186,7 +186,7 @@ jobs:
         with:
           test-name: Exercise 16 - Composition
           setup-command: ""
-          command: python -m pytest test_lab6.py::TestLab6::test_exercise16_composition -v
+          command: python -m pytest test_lab6.py::TestLab6::test_exercise16_composition_over_inheritance -v
           timeout: 10
           max-score: 5
 
