@@ -43,9 +43,13 @@ class ClassName:
     def __repr__(self):
         """Code representation for developers"""
         return f"ClassName({self.instance_var1!r}, {self.instance_var2!r})"
-🔄 Inheritance Patterns
-Basic Inheritance
-python
+```
+
+## 🔄 Inheritance Patterns
+
+### Basic Inheritance
+
+```python
 class Parent:
     def __init__(self, value):
         self.value = value
@@ -62,8 +66,11 @@ class Child(Parent):
     def display(self):
         parent_result = super().display()  # Call parent method
         return f"{parent_result}, Extra: {self.extra}"
-Multiple Inheritance
-python
+```
+
+### Multiple Inheritance
+
+```python
 class A:
     def method(self):
         return "From A"
@@ -75,9 +82,13 @@ class B:
 class C(A, B):  # Method Resolution Order: C -> A -> B
     def call_both(self):
         return f"{A.method(self)} and {B.method(self)}"
-🔐 Encapsulation Guidelines
-Access Modifiers
-python
+```
+
+## 🔐 Encapsulation Guidelines
+
+### Access Modifiers
+
+```python
 class SecureClass:
     def __init__(self):
         self.public = "Anyone can access"      # Public
@@ -95,8 +106,11 @@ class SecureClass:
 
     def _is_valid(self, value):  # Protected helper method
         return value is not None
-Property Decorators
-python
+```
+
+### Property Decorators
+
+```python
 class Temperature:
     def __init__(self, celsius):
         self._celsius = celsius  # Internal storage
@@ -116,9 +130,13 @@ class Temperature:
         """Setter with validation"""
         if -273.15 <= value <= 1000:  # Absolute zero to reasonable max
             self._celsius = value
-🎭 Polymorphism Examples
-Method Overriding
-python
+```
+
+## 🎭 Polymorphism Examples
+
+### Method Overriding
+
+```python
 class PaymentMethod:
     def process(self, amount):
         raise NotImplementedError("Subclasses must implement")
@@ -130,13 +148,19 @@ class CreditCard(PaymentMethod):
 class PayPal(PaymentMethod):
     def process(self, amount):
         return f"Processing ${amount} via PayPal"
+```
 
-# Polymorphic behavior
+### Polymorphic Behavior
+
+```python
 payments = [CreditCard(), PayPal()]
 for payment in payments:
     print(payment.process(100))  # Same method, different behavior
-Duck Typing
-python
+```
+
+### Duck Typing
+
+```python
 def make_sound(animal):
     """Works with ANY object that has a speak() method"""
     return animal.speak()
@@ -152,9 +176,13 @@ class Car:  # Not an animal, but has speak()
 # Both work because they implement speak()
 print(make_sound(Dog()))  # "Woof!"
 print(make_sound(Car()))  # "Vroom!"
-🔄 Iterator Protocol
-Custom Iterator Class
-python
+```
+
+## 🔄 Iterator Protocol
+
+### Custom Iterator Class
+
+```python
 class Countdown:
     def __init__(self, start):
         self.current = start
@@ -174,8 +202,11 @@ class Countdown:
 # Usage
 for number in Countdown(5):
     print(number)  # 5, 4, 3, 2, 1
-Generator Function (Alternative)
-python
+```
+
+### Generator Function (Alternative)
+
+```python
 def countdown_gen(start):
     """Generator version - simpler!"""
     current = start
@@ -186,9 +217,13 @@ def countdown_gen(start):
 # Same usage
 for number in countdown_gen(5):
     print(number)  # 5, 4, 3, 2, 1
-🏗️ Composition vs Inheritance
-Composition (HAS-A relationship)
-python
+```
+
+## 🏗️ Composition vs Inheritance
+
+### Composition (HAS-A Relationship)
+
+```python
 class Engine:
     def start(self):
         return "Engine started"
@@ -202,8 +237,11 @@ class Car:
 
 car = Car()
 print(car.start())  # "Engine started"
-Inheritance (IS-A relationship)
-python
+```
+
+### Inheritance (IS-A Relationship)
+
+```python
 class Animal:
     def move(self):
         return "Moving"
@@ -215,15 +253,18 @@ class Bird(Animal):  # Bird IS an Animal
 bird = Bird()
 print(bird.move())  # "Moving" (inherited)
 print(bird.fly())   # "Flying" (specific)
-When to use which?
+```
 
-Inheritance: When child IS-A special type of parent
+### When to Use Which?
 
-Composition: When object HAS-A component/part
+- **Inheritance**: When child IS-A special type of parent
+- **Composition**: When object HAS-A component/part
 
-💡 Common OOP Mistakes to Avoid
-1. Forgetting self parameter
-python
+## 💡 Common OOP Mistakes to Avoid
+
+### 1. Forgetting self Parameter
+
+```python
 # ❌ WRONG
 class MyClass:
     def method():  # Missing self!
@@ -233,8 +274,11 @@ class MyClass:
 class MyClass:
     def method(self):  # Has self
         return "Hello"
-2. Not calling super().__init__()
-python
+```
+
+### 2. Not Calling super().**init**()
+
+```python
 # ❌ WRONG - Parent attributes not initialized
 class Child(Parent):
     def __init__(self, value, extra):
@@ -245,8 +289,11 @@ class Child(Parent):
     def __init__(self, value, extra):
         super().__init__(value)  # Initialize parent
         self.extra = extra
-3. Misusing class vs instance variables
-python
+```
+
+### 3. Misusing Class vs Instance Variables
+
+```python
 # ❌ WRONG - Shared mutable object
 class Dog:
     tricks = []  # Class variable (shared by all dogs!)
@@ -261,8 +308,11 @@ class Dog:
 
     def add_trick(self, trick):
         self.tricks.append(trick)
-4. Overcomplicating with inheritance
-python
+```
+
+### 4. Overcomplicating with Inheritance
+
+```python
 # ❌ WRONG - Deep inheritance hierarchy
 class Vehicle:
     pass
@@ -290,9 +340,13 @@ class Car(Vehicle):
     def __init__(self):
         self.engine = Engine()
         self.wheels = [Wheel() for _ in range(4)]
-🧪 Testing Your OOP Code
-Manual Testing Pattern
-python
+```
+
+## 🧪 Testing Your OOP Code
+
+### Manual Testing Pattern
+
+```python
 # After writing a class, test it immediately
 class TestMyClass:
     def __init__(self):
@@ -318,22 +372,22 @@ class TestMyClass:
 # Quick test
 if __name__ == "__main__":
     TestMyClass()
-Common Test Cases for OOP
-Instance creation: Can you create objects?
+```
 
-Attribute access: Can you get/set attributes?
+### Common Test Cases for OOP
 
-Method calls: Do methods return expected values?
+- **Instance creation**: Can you create objects?
+- **Attribute access**: Can you get/set attributes?
+- **Method calls**: Do methods return expected values?
+- **Inheritance**: Do child classes work correctly?
+- **Polymorphism**: Do overridden methods work?
+- **Encapsulation**: Are private attributes protected?
 
-Inheritance: Do child classes work correctly?
+## 📚 OOP Design Principles (SOLID Reminder)
 
-Polymorphism: Do overridden methods work?
+### S - Single Responsibility
 
-Encapsulation: Are private attributes protected?
-
-📚 OOP Design Principles (SOLID Reminder)
-S - Single Responsibility
-python
+```python
 # ❌ One class doing too much
 class Report:
     def fetch_data(self): ...
@@ -348,8 +402,11 @@ class DataAnalyzer: ...
 class ReportFormatter: ...
 class FileSaver: ...
 class EmailSender: ...
-O - Open/Closed Principle
-python
+```
+
+### O - Open/Closed Principle
+
+```python
 # Open for extension, closed for modification
 class Shape:
     def area(self):
@@ -362,58 +419,58 @@ class Circle(Shape):  # Can add new shapes without modifying Shape
 class Square(Shape):  # Another extension
     def area(self):
         return self.side ** 2
-⚡ Quick Debugging Tips
-1. Print object state
-python
+```
+
+## ⚡ Quick Debugging Tips
+
+### 1. Print Object State
+
+```python
 obj = MyClass("test", 123)
 print(f"Object: {obj}")
 print(f"Type: {type(obj)}")
 print(f"Attributes: {obj.__dict__}")
-2. Check inheritance chain
-python
+```
+
+### 2. Check Inheritance Chain
+
+```python
 print(f"Class: {obj.__class__.__name__}")
 print(f"Bases: {obj.__class__.__bases__}")
 print(f"MRO: {obj.__class__.__mro__}")
-3. Test method overriding
-python
+```
+
+### 3. Test Method Overriding
+
+```python
 parent = Parent()
 child = Child()
 print(f"Parent method: {parent.method()}")
 print(f"Child method: {child.method()}")
 print(f"Are they different? {parent.method() != child.method()}")
-🎯 Final Checklist Before Submission
-All classes have __init__ methods
+```
 
-Inheritance uses super() correctly
+## 🎯 Final Checklist Before Submission
 
-Private attributes use __ prefix
+- [ ] All classes have `__init__` methods
+- [ ] Inheritance uses `super()` correctly
+- [ ] Private attributes use `__` prefix
+- [ ] Public methods are clearly named
+- [ ] Property decorators used where appropriate
+- [ ] `__str__` and `__repr__` implemented if needed
+- [ ] No syntax errors
+- [ ] Tests pass: `python test_lab6.py`
+- [ ] Code follows OOP principles
 
-Public methods are clearly named
+## 🆘 When Stuck on OOP Concepts
 
-Property decorators used where appropriate
+1. **Draw diagrams** - Visualize class relationships
+2. **Start simple** - Basic class first, then add features
+3. **Test incrementally** - After each change, run tests
+4. **Read error messages** - Python tells you what's wrong
+5. **Check examples** - Refer to lecture materials
+6. **Ask for help** - TAs can explain OOP concepts
 
-__str__ and __repr__ implemented if needed
-
-No syntax errors
-
-Tests pass: python test_lab6.py
-
-Code follows OOP principles
-
-🆘 When Stuck on OOP Concepts
-Draw diagrams - Visualize class relationships
-
-Start simple - Basic class first, then add features
-
-Test incrementally - After each change, run tests
-
-Read error messages - Python tells you what's wrong
-
-Check examples - Refer to lecture materials
-
-Ask for help - TAs can explain OOP concepts
-
-Remember: OOP is about modeling REAL-WORLD relationships in code. Think about how objects interact in reality, then translate to classes and methods.
+**Remember**: OOP is about modeling REAL-WORLD relationships in code. Think about how objects interact in reality, then translate to classes and methods.
 
 Good luck with Lab 6! 🚀
-```
