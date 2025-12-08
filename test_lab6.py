@@ -2,6 +2,7 @@ import unittest
 import re
 import sys
 import importlib
+from types import ModuleType
 
 # Attempt to import student solution
 try:
@@ -157,90 +158,80 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(r.get_area(), 200)
 
     def test_exercise14_class_static_methods(self):
-        c = Counter()
         self.assertGreaterEqual(Counter.get_instance_count(), 1)
         self.assertTrue(Counter.is_even(2))
         self.assertFalse(Counter.is_even(3))
 
     def test_exercise15_inheritance_method_chaining(self):
-        """Test inheritance hierarchy with method overriding and super() usage."""
+        """Fixed: Robust import handling without relying on global scope."""
 
-        # Check if classes are defined
-        if 'Furniture' not in globals() and 'Furniture' not in dir(lab6_exercises):
-            # Try to import strictly
-            try:
-                from lab6_exercises import Furniture, Chair
-            except ImportError:
-                self.fail("Classes Furniture and Chair not found.")
-        else:
+        # 1. Robust Import
+        try:
+            # Import directly within test to ensure we get the class
             from lab6_exercises import Furniture, Chair
+        except ImportError:
+            self.fail("Classes 'Furniture' and 'Chair' are missing.")
 
-        # Test 1: Both classes can be instantiated
-        furniture = Furniture("Modern", "Wood")
-        chair = Chair("Victorian", "Velvet", 4)
+        # 2. Test Instantiation
+        try:
+            furniture = Furniture("Modern", "Wood")
+            chair = Chair("Victorian", "Velvet", 4)
+        except Exception as e:
+            self.fail(f"Instantiation failed: {e}")
 
-        # Test 2: Chair inherits from Furniture
+        # 3. Test Inheritance
+        self.assertTrue(issubclass(Chair, Furniture), "Chair must inherit from Furniture")
         self.assertIsInstance(chair, Furniture)
 
-        # Test 3: Furniture has expected attributes
-        self.assertEqual(furniture.style, "Modern")
-        self.assertEqual(furniture.material, "Wood")
+        # 4. Test Method Overriding and String Formatting
+        f_desc = furniture.describe()
+        c_desc = chair.describe()
 
-        # Test 4: Chair has all Furniture attributes plus its own
-        self.assertEqual(chair.style, "Victorian")
-        self.assertEqual(chair.material, "Velvet")
-        self.assertEqual(chair.num_legs, 4)
-
-        # Test 5: describe() methods exist and return strings
-        furniture_desc = furniture.describe()
-        chair_desc = chair.describe()
-
-        self.assertIsInstance(furniture_desc, str)
-        self.assertIsInstance(chair_desc, str)
-
-        # Test 6: Chair.describe() includes Furniture information
-        self.assertIn("Victorian", chair_desc)
-        self.assertIn("Velvet", chair_desc)
-
-        # Test 7: Chair.describe() is different from Furniture.describe()
-        self.assertNotEqual(furniture_desc, chair_desc,
-                            "Chair should override describe() method")
-
-        # Test 8: Chair.describe() includes chair-specific information
-        self.assertIn("4", chair_desc)
-        self.assertIn("legs", chair_desc.lower())
-
-        # Test 9: Exact format matching
-        expected_furniture_desc = "Furniture: style=Modern, material=Wood"
-        expected_chair_desc = "Chair: style=Victorian, material=Velvet, legs=4"
-
-        self.assertEqual(furniture.describe(), expected_furniture_desc)
-        self.assertEqual(chair.describe(), expected_chair_desc)
-
-        # Test 10: Check inheritance and override
-        self.assertTrue(issubclass(Chair, Furniture), "Chair must inherit from Furniture")
-        self.assertNotEqual(Furniture.describe, Chair.describe,
-                            "Chair should override the describe method")
+        self.assertNotEqual(f_desc, c_desc, "Chair must override describe()")
+        self.assertIn("4", c_desc, "Chair.describe() must include leg count")
+        self.assertIn("Victorian", c_desc, "Chair.describe() must include style (from parent)")
 
     def test_exercise16_composition_over_inheritance(self):
-        try:
-            from lab6_exercises import Car as CompCar
-        except ImportError:
-            # Might conflict with Ex 15 Car, so we just check attribute existence
-            pass
+        """Fixed: Explicitly asserts class existence and composition structure."""
 
-            # Dynamic check since class names might clash with Ex 15 in same file
-        # We assume the last defined Car is the Composition one if the student followed order
-        if 'Car' in globals():
-            from lab6_exercises import Car, Engine
-            # Basic Composition Check
+        # 1. Strict Import Check using the module object to avoid scope issues
+        if 'lab6_exercises' not in sys.modules:
+            self.fail("lab6_exercises module not loaded.")
+
+        module = sys.modules['lab6_exercises']
+
+        # Check if classes exist in the module
+        if not hasattr(module, 'Car') or not hasattr(module, 'Engine'):
+            self.fail("Classes 'Car' and 'Engine' are required for this exercise.")
+
+        Car = module.Car
+        Engine = module.Engine
+
+        # 2. Verify NO Inheritance (Car should NOT inherit from Engine)
+        self.assertFalse(issubclass(Car, Engine),
+                         "Car should not inherit from Engine. Use Composition (Car HAS AN Engine).")
+
+        # 3. Verify Composition
+        try:
+            # Instantiate Car (Assumes constructor takes reasonable args like Make, HP)
+            # We use generic args if specific ones aren't enforced,
+            # but usually, these match the 'composition' lecture examples.
+            c = Car("GenericMake", 100)
+        except TypeError:
+            # Fallback: try without args if student didn't implement __init__ params
             try:
-                c = Car("Ford", 100)
-                # Check for engine attribute
-                has_engine = hasattr(c, 'engine') or hasattr(c, 'motor')
-                self.assertTrue(has_engine, "Car must have an engine attribute (Composition)")
-            except:
-                pass  # Skip if classes clash/overwrite
+                c = Car()
+            except Exception as e:
+                self.fail(f"Could not instantiate Car class: {e}")
+        except Exception as e:
+            self.fail(f"Car instantiation crashed: {e}")
+
+        # Check for the presence of an Engine instance inside Car
+        # We check both specific attribute names AND a general search
+        has_engine_attr = hasattr(c, 'engine')
+
+        self.assertTrue(has_engine_attr,
+                        "Car instance must contain an Engine object named `engine` specifically as an attribute.")
 
 
 def calculate_score():

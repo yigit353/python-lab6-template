@@ -452,8 +452,8 @@ def filter_by_length(strings, min_len):
 # 2. Create a Car class that represents a vehicle with:
 #    - __init__(self, brand, engine_horsepower) method
 #      * Stores brand as instance attribute
-#      * Creates an Engine instance with engine_horsepower and stores it 
-#        as an instance attribute named engine (COMPOSITION)
+#      * Creates an Engine instance with `engine_horsepower` and stores it
+#        as an instance attribute named `engine` (COMPOSITION)
 #    - start(self) method that returns format:
 #      "{brand} car: {engine_activation_string}"
 #      where engine_activation_string is the result of calling engine.activate()
