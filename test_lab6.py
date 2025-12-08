@@ -158,6 +158,19 @@ class TestLab6(unittest.TestCase):
         self.assertEqual(r.get_area(), 200)
 
     def test_exercise14_class_static_methods(self):
+        # 1. Strict Import Check using the module object to avoid scope issues
+        if 'lab6_exercises' not in sys.modules:
+            self.fail("lab6_exercises module not loaded.")
+
+        module = sys.modules['lab6_exercises']
+
+        # Check if classes exist in the module
+        if not hasattr(module, 'Counter'):
+            self.fail("Class 'Count' is required for this exercise.")
+
+        Counter = module.Counter
+        Counter()
+
         self.assertGreaterEqual(Counter.get_instance_count(), 1)
         self.assertTrue(Counter.is_even(2))
         self.assertFalse(Counter.is_even(3))
